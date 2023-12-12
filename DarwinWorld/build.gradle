@@ -1,0 +1,31 @@
+plugins {
+    id("application")
+    id("java")
+    id("org.openjfx.javafxplugin") version ("0.0.13")
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClassName = 'MlodyPucekIndustries/World' // Replace 'org.example.Main' with the actual package and class name of your main class
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
