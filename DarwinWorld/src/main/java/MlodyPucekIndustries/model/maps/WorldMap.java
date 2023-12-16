@@ -9,13 +9,17 @@ import java.util.List;
 public interface WorldMap extends MoveValidator {
     void placeAnimal(Animal animal);
 
-    void placeDefaultGrass();
+    void placeDefaultGrasses();
 
-    void move(Animal animal, int tick);
+    void placeDefaultAnimals();
 
+    // only for MapVisualizer
     boolean isOccupied(Vector2d position);
 
+    // only for MapVisualizer
     WorldElement objectAt(Vector2d position);
+
+    void move(Animal animal, int tick);
 
     List<WorldElement> getElements();
 

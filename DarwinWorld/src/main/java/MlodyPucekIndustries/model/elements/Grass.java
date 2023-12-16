@@ -1,7 +1,6 @@
 package MlodyPucekIndustries.model.elements;
 
 import MlodyPucekIndustries.model.utils.Vector2d;
-import MlodyPucekIndustries.model.elements.WorldElement;
 
 public class Grass implements WorldElement{
     private final Vector2d position;

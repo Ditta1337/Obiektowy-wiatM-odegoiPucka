@@ -7,14 +7,18 @@ import MlodyPucekIndustries.model.maps.MoveValidator;
 public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2d position;
-    private int tick;
+    private int[] genome;
+    private final short baseTick;
+    private final long birthTick;
     private int energy;
 
-    public Animal(int tick, int energy) {
-        this.tick = tick;
+    public Animal(int tick, int energy, int[] genome, Vector2d position) {
+        this.baseTick = (short) (Math.random() * genome.length);
+        this.birthTick = tick;
         this.energy = energy;
-        direction = MapDirection.N;
-        position = new Vector2d(2,2);
+        this.genome = genome;
+        this.position = position;
+        direction = MapDirection.N.spin((short) (Math.random() * 8));
     }
 
     public void setPosition(Vector2d position) {
@@ -52,21 +56,19 @@ public class Animal implements WorldElement {
 
     @Override
     public String toString() {
-        return direction.toString() + " " + position.toString();
+        return direction.toString();
     }
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
 
-    public void move(int gene, MoveValidator validator) {
-        direction = direction.spin(gene);
-        if (validator.canMoveTo(position.add(direction.toUnitVector()))) {
-            // TODO: remove .add and replace it with method form move validator that translates new position
-            // that is next to old or on the other side of the map
-            position = position.add(direction.toUnitVector());
-        }
+    public void move(int tick, MoveValidator validator) {
+        direction = direction.spin(genome[(tick + baseTick) % genome.length]);
         Vector2d newPosition = position.add(direction.toUnitVector());
+        if (validator.canMoveTo(newPosition)) {
+            position = validator.validPosition(newPosition);
+        }
     }
 }
 

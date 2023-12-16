@@ -55,14 +55,14 @@ public enum MapDirection {
     @Override
     public String toString() {
         return switch(this) {
-            case N -> "N";
-            case S -> "S";
-            case W -> "W";
-            case E -> "E";
-            case NW -> "NW";
-            case NE -> "NE";
-            case SW -> "SW";
-            case SE -> "SE";
+            case N -> "↑";
+            case S -> "↓";
+            case W -> "←";
+            case E -> "→";
+            case NW -> "↖";
+            case NE -> "↗";
+            case SW -> "↙";
+            case SE -> "↘";
         };
     }
 
