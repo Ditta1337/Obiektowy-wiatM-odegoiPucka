@@ -11,6 +11,7 @@ public class Animal implements WorldElement {
     private final short baseTick;
     private final long birthTick;
     private int energy;
+    private int children = 0;
 
     public Animal(int tick, int energy, int[] genome, Vector2d position) {
         this.baseTick = (short) (Math.random() * genome.length);
@@ -19,6 +20,22 @@ public class Animal implements WorldElement {
         this.genome = genome;
         this.position = position;
         direction = MapDirection.N.spin((short) (Math.random() * 8));
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public long getBirthTick() {
+        return birthTick;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void addChild() {
+        children++;
     }
 
     public void setPosition(Vector2d position) {

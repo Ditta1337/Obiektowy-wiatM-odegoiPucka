@@ -4,4 +4,9 @@ import MlodyPucekIndustries.model.elements.Animal;
 
 import java.util.List;
 
-public class RankAnimals {} //TODO : write comparing and sorting to the second element Animals
+//TODO : write comparing and sorting to the second element Animals
+public class RankAnimals {
+    private boolean compareAnimals(Animal animal1, Animal animal2) {
+
+    }
+}
