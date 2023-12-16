@@ -19,7 +19,7 @@ public interface WorldMap extends MoveValidator {
     // only for MapVisualizer
     WorldElement objectAt(Vector2d position);
 
-    void move(Animal animal, int tick);
+    void move(Animal animal);
 
     List<WorldElement> getElements();
 

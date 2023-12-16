@@ -5,6 +5,7 @@ import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
 import MlodyPucekIndustries.model.utils.MapDirection;
+import MlodyPucekIndustries.model.utils.MultipleHashMap;
 import MlodyPucekIndustries.model.utils.RandomPositionGenerator;
 import MlodyPucekIndustries.model.utils.Vector2d;
 
@@ -16,7 +17,7 @@ public class RegularMap implements WorldMap{
     private final Vector2d upperRight;
     private final Vector2d jungleLowerLeft;
     private final Vector2d jungleUpperRight;
-    private HashMap<Vector2d, Animal> animals = new HashMap<>();
+    private MultipleHashMap animals;
     private HashMap<Vector2d, Grass> grasses = new HashMap<>();
     private final int defaultAnimals;
     private final int defaultGrass;
@@ -39,6 +40,7 @@ public class RegularMap implements WorldMap{
         this.defaultAnimals = defaultAnimals;
         this.defaultEnergy = defaultEnergy;
         this.genomeLength = genomeLength;
+        this.animals = new MultipleHashMap(height,width);
         placeDefaultGrasses();
         placeDefaultAnimals();
 
@@ -46,7 +48,7 @@ public class RegularMap implements WorldMap{
 
     @Override
     public void placeAnimal(Animal animal) {
-        animals.put(animal.getPosition(), animal);
+        animals.put(animal);
     }
 
     // IF this ends up in abstract class, change from public to private
@@ -71,15 +73,15 @@ public class RegularMap implements WorldMap{
     }
 
 
-    public void move(Animal animal, int tick) {
+    public void move(Animal animal) {
         Vector2d oldPosition = animal.getPosition();
         animal.move(tick, this);
         Vector2d newPosition = animal.getPosition();
         if (oldPosition.equals(newPosition)) {
             return;
         }
-        animals.remove(oldPosition);
-        animals.put(newPosition, animal);
+        animals.remove(animal, oldPosition);
+        animals.put(animal);
     }
 
     private int[] generateGenome(int genomeLength) {
@@ -119,8 +121,26 @@ public class RegularMap implements WorldMap{
 
     public WorldElement objectAt(Vector2d position) {
         if (animals.containsKey(position)) {
-            return animals.get(position);
+            return animals.get(position).get(0);
         } else return grasses.getOrDefault(position, null);
     }
 
+    public void eatGrass(Animal animal, Vector2d grassPosition){
+        grasses.remove(grassPosition);
+        animal.modifyEnergy(defaultEnergy);
+    }
+
+    public void tickAnimalMove(){
+        for(Animal animal: animals.values()) {
+            move(animal);
+        }
+    }
+
+    public void tickEatGrass(){
+        for(Vector2d grassPosition: grasses.keySet()){
+            if(animals.containsKey(grassPosition)){
+                System.out.println("siemano"); //TODO : leave it alone
+            }
+        }
+    }
 }

@@ -63,12 +63,16 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    public void move(int tick, MoveValidator validator) {
-        direction = direction.spin(genome[(tick + baseTick) % genome.length]);
+    public void move(long tick, MoveValidator validator) {
+        direction = direction.spin(genome[((short)(tick % genome.length) + baseTick) % genome.length]);
         Vector2d newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
             position = validator.validPosition(newPosition);
         }
+    }
+
+    public void modifyEnergy(int value){
+        energy += value;
     }
 }
 
