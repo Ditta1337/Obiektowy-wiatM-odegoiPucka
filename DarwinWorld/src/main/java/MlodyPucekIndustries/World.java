@@ -13,6 +13,7 @@ public class World {
                 2,
                 1,
                 0,
+                30,
                 10,
                 8);
 
@@ -24,7 +25,7 @@ public class World {
         map.placeAnimal(ziomek2);
         System.out.println(visualizer.draw(new Vector2d(0, 0), new Vector2d(2, 2)));
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             map.move(ziomek2);
             System.out.println(visualizer.draw(new Vector2d(0, 0), new Vector2d(2, 2)));
         }

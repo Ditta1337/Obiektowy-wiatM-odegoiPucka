@@ -21,7 +21,8 @@ public class RegularMap implements WorldMap{
     private HashMap<Vector2d, Grass> grasses = new HashMap<>();
     private final int defaultAnimals;
     private final int defaultGrass;
-    private final int defaultEnergy;
+    private final int defaultAnimalEnergy;
+    private final int defaultGrassEnergy;
     private long tick = 0;
     private final int genomeLength;
 
@@ -31,6 +32,7 @@ public class RegularMap implements WorldMap{
                       int jungleWidth,
                       int defaultGrass,
                       int defaultAnimals,
+                      int defaultGrassEnergy,
                       int defaultEnergy,
                       int genomeLength) {
         this.jungleLowerLeft = new Vector2d((width - jungleWidth) / 2, (height - jungleHeight) / 2);
@@ -38,7 +40,8 @@ public class RegularMap implements WorldMap{
         this.upperRight = new Vector2d(width, height);
         this.defaultGrass = defaultGrass;
         this.defaultAnimals = defaultAnimals;
-        this.defaultEnergy = defaultEnergy;
+        this.defaultAnimalEnergy = defaultEnergy;
+        this.defaultGrassEnergy = defaultGrassEnergy;
         this.genomeLength = genomeLength;
         this.animals = new MultipleHashMap(height,width);
         placeDefaultGrasses();
@@ -68,7 +71,7 @@ public class RegularMap implements WorldMap{
                 defaultAnimals,
                 this);
         for (Vector2d position : generator) {
-            placeAnimal(new Animal(0, defaultEnergy, generateGenome(genomeLength), position));
+            placeAnimal(new Animal(0, defaultAnimalEnergy, generateGenome(genomeLength), position));
         }
     }
 
@@ -127,7 +130,7 @@ public class RegularMap implements WorldMap{
 
     public void eatGrass(Animal animal, Vector2d grassPosition){
         grasses.remove(grassPosition);
-        animal.modifyEnergy(defaultEnergy);
+        animal.modifyEnergy(defaultGrassEnergy);
     }
 
     public void tickAnimalMove(){
@@ -136,11 +139,18 @@ public class RegularMap implements WorldMap{
         }
     }
 
-    public void tickEatGrass(){
+    public void tickEatGrass(Animal[] dominantPair){
         for(Vector2d grassPosition: grasses.keySet()){
             if(animals.containsKey(grassPosition)){
-                System.out.println("siemano"); //TODO : leave it alone
+                List<Animal> animalsOnGrass = animals.get(grassPosition);
+                if (animalsOnGrass.size() == 1) {
+                    animalsOnGrass.get(0).modifyEnergy(1);
+                }
             }
         }
     }
 }
+
+// map manager z mapy
+
+

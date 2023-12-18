@@ -19,7 +19,12 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.genome = genome;
         this.position = position;
-        direction = MapDirection.N.spin((short) (Math.random() * 8));
+        //direction = MapDirection.N.spin((short) (Math.random() * 8));
+        direction = MapDirection.NE;
+    }
+
+    public void modifyEnergy(int value){
+        energy += value;
     }
 
     public int getEnergy() {
@@ -86,10 +91,6 @@ public class Animal implements WorldElement {
         if (validator.canMoveTo(newPosition)) {
             position = validator.validPosition(newPosition);
         }
-    }
-
-    public void modifyEnergy(int value){
-        energy += value;
     }
 }
 

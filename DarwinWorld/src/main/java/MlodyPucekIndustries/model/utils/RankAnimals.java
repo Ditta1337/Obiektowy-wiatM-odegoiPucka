@@ -2,6 +2,7 @@ package MlodyPucekIndustries.model.utils;
 
 import MlodyPucekIndustries.model.elements.Animal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,4 +30,21 @@ public class RankAnimals {
             return false;
         }
     }
+
+    public Animal[] getDominantPair(List<Animal> animals) {
+        Animal[] returnList = new Animal[2];
+        for (int i = 0; i < 2; i++) {
+            Animal maxAnimal = animals.get(i);
+            for (int j = i; j < animals.size(); j++) {
+                if (compareAnimals(maxAnimal, animals.get(j))) {
+                    maxAnimal = animals.get(j);
+                }
+            }
+            returnList[i] = maxAnimal;
+        }
+        return returnList;
+    }
 }
+
+// czy robimy abstracta czy dziedziczymy po RegularMapie
+// czy tick ma byc long???
