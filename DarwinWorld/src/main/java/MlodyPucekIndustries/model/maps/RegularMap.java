@@ -17,41 +17,55 @@ public class RegularMap implements WorldMap{
     private final Vector2d upperRight;
     private final Vector2d jungleLowerLeft;
     private final Vector2d jungleUpperRight;
-    private MultipleHashMap animals;
-    private HashMap<Vector2d, Grass> grasses = new HashMap<>();
     private final int defaultAnimals;
     private final int defaultGrass;
-    private final int defaultAnimalEnergy;
-    private final int defaultGrassEnergy;
-    private long tick = 0;
+    private final int animalEnergy;
     private final int genomeLength;
+    private MultipleHashMap animals;
+    private HashMap<Vector2d, Grass> grasses = new HashMap<>();
+
 
     public RegularMap(int height,
                       int width,
                       int jungleHeight,
                       int jungleWidth,
-                      int defaultGrass,
                       int defaultAnimals,
-                      int defaultGrassEnergy,
-                      int defaultEnergy,
+                      int defaultGrass,
+                      int animalEnergy,
                       int genomeLength) {
         this.jungleLowerLeft = new Vector2d((width - jungleWidth) / 2, (height - jungleHeight) / 2);
         this.jungleUpperRight = new Vector2d((width + jungleWidth) / 2, (height + jungleHeight) / 2);
         this.upperRight = new Vector2d(width, height);
-        this.defaultGrass = defaultGrass;
-        this.defaultAnimals = defaultAnimals;
-        this.defaultAnimalEnergy = defaultEnergy;
-        this.defaultGrassEnergy = defaultGrassEnergy;
-        this.genomeLength = genomeLength;
         this.animals = new MultipleHashMap(height,width);
+        this.defaultAnimals = defaultAnimals;
+        this.defaultGrass = defaultGrass;
+        this.animalEnergy = animalEnergy;
+        this.genomeLength = genomeLength;
+
         placeDefaultGrasses();
         placeDefaultAnimals();
+    }
 
+    public Vector2d getJungleLowerLeft() {
+        return jungleLowerLeft;
+    }
+
+    public Vector2d getJungleUpperRight() {
+        return jungleUpperRight;
+    }
+
+    public Vector2d getUpperRight() {
+        return upperRight;
     }
 
     @Override
     public void placeAnimal(Animal animal) {
         animals.put(animal);
+    }
+
+    @Override
+    public void placeGrass(Grass grass) {
+        grasses.put(grass.getPosition(), grass);
     }
 
     // IF this ends up in abstract class, change from public to private
@@ -71,20 +85,16 @@ public class RegularMap implements WorldMap{
                 defaultAnimals,
                 this);
         for (Vector2d position : generator) {
-            placeAnimal(new Animal(0, defaultAnimalEnergy, generateGenome(genomeLength), position));
+            placeAnimal(new Animal(0, animalEnergy, generateGenome(genomeLength), position));
         }
     }
 
+    public MultipleHashMap getAnimals() {
+        return animals;
+    }
 
-    public void move(Animal animal) {
-        Vector2d oldPosition = animal.getPosition();
-        animal.move(tick, this);
-        Vector2d newPosition = animal.getPosition();
-        if (oldPosition.equals(newPosition)) {
-            return;
-        }
-        animals.remove(animal, oldPosition);
-        animals.put(animal);
+    public HashMap<Vector2d, Grass> getGrasses() {
+        return grasses;
     }
 
     private int[] generateGenome(int genomeLength) {
@@ -119,36 +129,15 @@ public class RegularMap implements WorldMap{
     }
 
     public boolean isOccupied(Vector2d position) {
-        return animals.containsKey(position) || grasses.containsKey(position);
+        return !animals.get(position).isEmpty() || grasses.containsKey(position);
     }
 
     public WorldElement objectAt(Vector2d position) {
-        if (animals.containsKey(position)) {
+        if (!animals.get(position).isEmpty()) {
             return animals.get(position).get(0);
         } else return grasses.getOrDefault(position, null);
     }
 
-    public void eatGrass(Animal animal, Vector2d grassPosition){
-        grasses.remove(grassPosition);
-        animal.modifyEnergy(defaultGrassEnergy);
-    }
-
-    public void tickAnimalMove(){
-        for(Animal animal: animals.values()) {
-            move(animal);
-        }
-    }
-
-    public void tickEatGrass(Animal[] dominantPair){
-        for(Vector2d grassPosition: grasses.keySet()){
-            if(animals.containsKey(grassPosition)){
-                List<Animal> animalsOnGrass = animals.get(grassPosition);
-                if (animalsOnGrass.size() == 1) {
-                    animalsOnGrass.get(0).modifyEnergy(1);
-                }
-            }
-        }
-    }
 }
 
 // map manager z mapy

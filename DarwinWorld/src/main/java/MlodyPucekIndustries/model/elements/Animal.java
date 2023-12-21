@@ -13,14 +13,14 @@ public class Animal implements WorldElement {
     private int energy;
     private int children = 0;
 
-    public Animal(int tick, int energy, int[] genome, Vector2d position) {
+    public Animal(long tick, int energy, int[] genome, Vector2d position) {
         this.baseTick = (short) (Math.random() * genome.length);
         this.birthTick = tick;
         this.energy = energy;
         this.genome = genome;
         this.position = position;
-        //direction = MapDirection.N.spin((short) (Math.random() * 8));
-        direction = MapDirection.NE;
+        direction = MapDirection.N.spin((short) (Math.random() * 8));
+        //direction = MapDirection.NE;
     }
 
     public void modifyEnergy(int value){
@@ -59,6 +59,10 @@ public class Animal implements WorldElement {
         return this.position;
     }
 
+    public int[] getGenome() {
+        return genome;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -86,11 +90,14 @@ public class Animal implements WorldElement {
     }
 
     public void move(long tick, MoveValidator validator) {
-        direction = direction.spin(genome[((short)(tick % genome.length) + baseTick) % genome.length]);
+        // TODO: fix
+        // chyba teleport nie działa za dobrze
         Vector2d newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
+            energy--;
             position = validator.validPosition(newPosition);
         }
+        direction = direction.spin(genome[((short)(tick % genome.length) + baseTick) % genome.length]);
     }
 }
 

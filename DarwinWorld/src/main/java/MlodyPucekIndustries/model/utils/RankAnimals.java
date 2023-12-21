@@ -8,7 +8,7 @@ import java.util.Random;
 
 //TODO : sorting to the second element Animals
 public class RankAnimals {
-    private boolean compareAnimals(Animal animal1, Animal animal2) {
+    private static boolean compareAnimals(Animal animal1, Animal animal2) {
         if (animal1.getEnergy() > animal2.getEnergy()) {
             return true;
         } else if (animal1.getEnergy() == animal2.getEnergy()) {
@@ -31,7 +31,7 @@ public class RankAnimals {
         }
     }
 
-    public Animal[] getDominantPair(List<Animal> animals) {
+    public static Animal[] getDominantPair(List<Animal> animals) {
         Animal[] returnList = new Animal[2];
         for (int i = 0; i < 2; i++) {
             Animal maxAnimal = animals.get(i);
@@ -46,5 +46,5 @@ public class RankAnimals {
     }
 }
 
-// czy robimy abstracta czy dziedziczymy po RegularMapie
-// czy tick ma byc long???
+// TODO: Zapytac Lazarza o to czy to jest ok
+// czy jak jest 2n zwierzakow to czy wszytkie pary sie rozmnazaja
