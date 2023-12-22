@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO : sorting to the second element Animals
 public class RankAnimals {
     private static boolean compareAnimals(Animal animal1, Animal animal2) {
         if (animal1.getEnergy() > animal2.getEnergy()) {

@@ -140,6 +140,8 @@ public class RegularMapManager {
         animal2.modifyEnergy((int) (-0.33 * animal2Energy));
         animal1.addChild();
         animal2.addChild();
+
+        System.out.println("Seggz on " + animal1.getPosition());
     }
 
     public void tickEnF(){

@@ -116,12 +116,12 @@ public class RegularMap implements WorldMap{
         return position.getY() >= 0 && position.getY() < upperRight.getY();
     }
 
-    // TODO: counting form 0
+    //counting form 0
     public Vector2d validPosition(Vector2d position) {
         if (position.getX() < 0) {
             position = new Vector2d(upperRight.getX() -1, position.getY());
         }
-        else if (position.getX() >= upperRight.getX() - 1) {
+        else if (position.getX() > upperRight.getX() - 1) {
             position = new Vector2d(0, position.getY());
         }
 

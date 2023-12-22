@@ -19,7 +19,8 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.genome = genome;
         this.position = position;
-        direction = MapDirection.N.spin((short) (Math.random() * 8));
+        // changed
+        direction = MapDirection.values()[genome[baseTick]];
         //direction = MapDirection.NE;
     }
 
@@ -90,8 +91,6 @@ public class Animal implements WorldElement {
     }
 
     public void move(long tick, MoveValidator validator) {
-        // TODO: fix
-        // chyba teleport nie działa za dobrze
         Vector2d newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
             energy--;
