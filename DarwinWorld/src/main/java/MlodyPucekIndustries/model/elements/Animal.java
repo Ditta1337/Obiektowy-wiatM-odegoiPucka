@@ -11,14 +11,37 @@ public class Animal implements WorldElement {
     private final short baseTick;
     private final long birthTick;
     private int energy;
+    private int children = 0;
 
-    public Animal(int tick, int energy, int[] genome, Vector2d position) {
+    public Animal(long tick, int energy, int[] genome, Vector2d position) {
         this.baseTick = (short) (Math.random() * genome.length);
         this.birthTick = tick;
         this.energy = energy;
         this.genome = genome;
         this.position = position;
-        direction = MapDirection.N.spin((short) (Math.random() * 8));
+        // changed
+        direction = MapDirection.values()[genome[baseTick]];
+        //direction = MapDirection.NE;
+    }
+
+    public void modifyEnergy(int value){
+        energy += value;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public long getBirthTick() {
+        return birthTick;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void addChild() {
+        children++;
     }
 
     public void setPosition(Vector2d position) {
@@ -35,6 +58,10 @@ public class Animal implements WorldElement {
 
     public Vector2d getPosition() {
         return this.position;
+    }
+
+    public int[] getGenome() {
+        return genome;
     }
 
     @Override
@@ -63,12 +90,13 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    public void move(int tick, MoveValidator validator) {
-        direction = direction.spin(genome[(tick + baseTick) % genome.length]);
+    public void move(long tick, MoveValidator validator) {
         Vector2d newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
+            energy--;
             position = validator.validPosition(newPosition);
         }
+        direction = direction.spin(genome[((short)(tick % genome.length) + baseTick) % genome.length]);
     }
 }
 
