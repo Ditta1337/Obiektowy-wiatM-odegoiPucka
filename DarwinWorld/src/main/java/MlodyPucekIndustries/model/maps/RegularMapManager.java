@@ -96,6 +96,10 @@ public class RegularMapManager {
     public void tickAnimalMove(){
         for(Animal animal: animals.values()) {
             move(animal);
+            if (animal.getEnergy() <= 0) {
+                animals.remove(animal, animal.getPosition());
+                System.out.println("Died on " + animal.getPosition());
+            }
         }
     }
 

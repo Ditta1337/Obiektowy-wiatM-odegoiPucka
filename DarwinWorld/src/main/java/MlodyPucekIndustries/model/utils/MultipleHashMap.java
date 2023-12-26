@@ -21,13 +21,13 @@ public class MultipleHashMap {
         (animalsMap.get(position)).remove(animal);
     }
 
-    public ArrayList<Animal> get(Vector2d position){
+    public ArrayList<Animal> get(Vector2d position) {
         return animalsMap.get(position);
     }
 
     public ArrayList<Animal> values(){
         ArrayList<Animal> elements = new ArrayList<>();
-        for(ArrayList<Animal> animals: animalsMap.values()){
+        for(ArrayList<Animal> animals: animalsMap.values()) {
             elements.addAll(animals);
         }
         return elements;

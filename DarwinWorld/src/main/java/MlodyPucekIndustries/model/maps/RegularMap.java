@@ -4,7 +4,6 @@ import MlodyPucekIndustries.World;
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
-import MlodyPucekIndustries.model.utils.MapDirection;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
 import MlodyPucekIndustries.model.utils.RandomPositionGenerator;
 import MlodyPucekIndustries.model.utils.Vector2d;
