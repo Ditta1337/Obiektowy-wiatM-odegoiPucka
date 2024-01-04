@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class RandomPositionGenerator implements Iterable<Vector2d> {
+public class RandomPositionGenerator implements Iterable<Vector2D> {
 
     private final int maxWidth;
     private final int maxHeight;
@@ -24,13 +24,13 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     }
 
     @Override
-    public Iterator<Vector2d> iterator() {
-        List<Vector2d> positions = new ArrayList<>();
+    public Iterator<Vector2D> iterator() {
+        List<Vector2D> positions = new ArrayList<>();
 
         for (int x = 0; x <= maxWidth; x++) {
             for (int y = 0; y <= maxHeight; y++) {
-                if (validator.canMoveTo(new Vector2d(x, y))) {
-                    positions.add(new Vector2d(x, y));
+                if (validator.canMoveTo(new Vector2D(x, y))) {
+                    positions.add(new Vector2D(x, y));
                 }
             }
         }
@@ -43,7 +43,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             }
 
             @Override
-            public Vector2d next() {
+            public Vector2D next() {
                 if (hasNext()) {
                     generatedCount++;
                     return positions.get(generatedCount);

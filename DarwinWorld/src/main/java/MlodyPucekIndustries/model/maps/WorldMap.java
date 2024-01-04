@@ -1,40 +1,33 @@
 package MlodyPucekIndustries.model.maps;
 
-import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
-import MlodyPucekIndustries.model.utils.Vector2d;
+import MlodyPucekIndustries.model.utils.Vector2D;
 
 import java.util.HashMap;
-import java.util.List;
 
 public interface WorldMap extends MoveValidator {
-    void placeAnimal(Animal animal);
+    MultipleHashMap getAnimals();
+
+    HashMap<Vector2D, Grass> getGrasses();
+
+    int getWidth();
+
+    int getHeight();
+
+    Vector2D getJungleLowerLeft();
+
+    Vector2D getJungleUpperRight();
 
     void placeGrass(Grass grass);
 
-    void placeDefaultGrasses();
+    void modifyTideState();
 
-    void placeDefaultAnimals();
+    boolean isOccupied(Vector2D position);
 
-    // only for MapVisualizer
-    boolean isOccupied(Vector2d position);
+    WorldElement objectAt(Vector2D position);
 
-    // only for MapVisualizer
-    WorldElement objectAt(Vector2d position);
-
-    List<WorldElement> getElements();
-
-    MultipleHashMap getAnimals();
-
-    HashMap<Vector2d, Grass> getGrasses();
-
-    Vector2d getUpperRight();
-
-    Vector2d getJungleLowerLeft();
-
-    Vector2d getJungleUpperRight();
-
+    void initiate();
 }
 

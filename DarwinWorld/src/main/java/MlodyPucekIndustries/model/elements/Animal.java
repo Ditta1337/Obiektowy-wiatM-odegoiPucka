@@ -6,14 +6,14 @@ import MlodyPucekIndustries.model.maps.MoveValidator;
 
 public class Animal implements WorldElement {
     private MapDirection direction;
-    private Vector2d position;
+    private Vector2D position;
     private int[] genome;
     private final short baseTick;
     private final long birthTick;
     private int energy;
     private int children = 0;
 
-    public Animal(long tick, int energy, int[] genome, Vector2d position) {
+    public Animal(long tick, int energy, int[] genome, Vector2D position) {
         this.baseTick = (short) (Math.random() * genome.length);
         this.birthTick = tick;
         this.energy = energy;
@@ -44,7 +44,7 @@ public class Animal implements WorldElement {
         children++;
     }
 
-    public void setPosition(Vector2d position) {
+    public void setPosition(Vector2D position) {
         this.position = position;
     }
 
@@ -56,7 +56,7 @@ public class Animal implements WorldElement {
         return this.direction;
     }
 
-    public Vector2d getPosition() {
+    public Vector2D getPosition() {
         return this.position;
     }
 
@@ -86,12 +86,12 @@ public class Animal implements WorldElement {
         return direction.toString();
     }
 
-    public boolean isAt(Vector2d position) {
+    public boolean isAt(Vector2D position) {
         return this.position.equals(position);
     }
 
     public void move(long tick, MoveValidator validator) {
-        Vector2d newPosition = position.add(direction.toUnitVector());
+        Vector2D newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
             energy--;
             position = validator.validPosition(newPosition);
