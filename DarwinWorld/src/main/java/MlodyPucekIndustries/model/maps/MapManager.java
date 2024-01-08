@@ -41,7 +41,7 @@ public class MapManager {
     public void start() {
         map.initiate();
         MapVisualizer visualizer = new MapVisualizer(map);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             System.out.println(visualizer.draw(new Vector2D(0, 0), new Vector2D(map.getWidth() - 1, map.getHeight() - 1)));
             tickAnimalMove();
             tickEnF();

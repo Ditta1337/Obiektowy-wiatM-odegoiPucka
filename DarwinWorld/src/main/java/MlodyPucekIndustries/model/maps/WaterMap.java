@@ -31,7 +31,7 @@ public class WaterMap extends RegularMap {
         this.grassEdge = grassEdge;
         this.deepEdge = deepEdge;
         this.tideState = deepEdge;
-        this.deltaTide = (1 - grassEdge) / 15;
+        this.deltaTide = (1 - grassEdge) / 5;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class WaterMap extends RegularMap {
                         randomIndex = (randomIndex + 1) % 8;
                     }
                     if (!animalMoved) {
-                        animals.remove(animal, waterPosition);
+                        animalsToRemove.add(animal);
                     }
                 }
                 for (Animal animal : animalsToRemove) {
