@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RankAnimals {
+    // todo: animal jako comarable i logika w animalu
     private static boolean compareAnimals(Animal animal1, Animal animal2) {
         if (animal1.getEnergy() > animal2.getEnergy()) {
             return true;
@@ -45,5 +46,5 @@ public class RankAnimals {
     }
 }
 
-// TODO: Zapytac Lazarza o to czy to jest ok
+// TODO: Zapytac o to czy to jest ok
 // czy jak jest 2n zwierzakow to czy wszytkie pary sie rozmnazaja

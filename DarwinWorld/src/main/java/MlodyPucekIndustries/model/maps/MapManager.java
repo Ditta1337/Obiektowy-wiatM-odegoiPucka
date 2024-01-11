@@ -41,7 +41,7 @@ public class MapManager {
     public void start() {
         map.initiate();
         MapVisualizer visualizer = new MapVisualizer(map);
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.println(visualizer.draw(new Vector2D(0, 0), new Vector2D(map.getWidth() - 1, map.getHeight() - 1)));
             tickAnimalMove();
             tickEnF();
@@ -147,7 +147,7 @@ public class MapManager {
             newGenome[secondIndex] = temp;
         }
         else {
-            // TODO: Zapytac Lazarza o to ile genow ma byc losowane
+            // TODO: Zapytac o to ile genow ma byc losowane -> parametr
             newGenome[(int) (Math.random() * genomeLength)] = (int) (Math.random() * 8);
         }
 
@@ -159,7 +159,7 @@ public class MapManager {
         animal1.addChild();
         animal2.addChild();
 
-        System.out.println("Ruchanie on " + animal1.getPosition());
+        System.out.println("Reproduction on " + animal1.getPosition());
     }
 
     public void tickEnF(){
@@ -183,6 +183,7 @@ public class MapManager {
         }
     }
 
+    // todo: sprawdzic czy jest woda na tym polu
     public void tickSpawnGrass(){
         for(Vector2D position: steppePositions){
             if(!grasses.containsKey(position) && Math.random() < 0.2){

@@ -143,6 +143,7 @@ public class RegularMap implements WorldMap {
         } else return grasses.getOrDefault(position, null);
     }
 
+    // TODO: zapytać czy moze zostac puste
     public void modifyTideState() {
         // has to be left empty in regular map
     }

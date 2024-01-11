@@ -5,8 +5,8 @@ import MlodyPucekIndustries.model.maps.*;
 public class World {
     public static void main(String[] args) {
         WaterMap waterMap = new WaterMap(
-                70,
-                70,
+                50,
+                50,
                 5,
                 5,
                 150,
