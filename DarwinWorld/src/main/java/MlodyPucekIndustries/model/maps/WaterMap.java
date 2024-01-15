@@ -31,7 +31,7 @@ public class WaterMap extends RegularMap {
         this.grassEdge = grassEdge;
         this.deepEdge = deepEdge;
         this.tideState = deepEdge;
-        this.deltaTide = (1 - grassEdge) / 5;
+        this.deltaTide = (1 - grassEdge) / 10;
     }
 
     @Override
@@ -78,8 +78,8 @@ public class WaterMap extends RegularMap {
             deltaTide = -deltaTide;
         }
 
-        if (tideState > 1){
-            tideState = 1;
+        if (tideState > 0.9){
+            tideState = 0.9;
             deltaTide = -deltaTide;
         }
     }

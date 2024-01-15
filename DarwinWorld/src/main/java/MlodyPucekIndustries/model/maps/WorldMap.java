@@ -2,6 +2,7 @@ package MlodyPucekIndustries.model.maps;
 
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
+import MlodyPucekIndustries.model.utils.AnimalTree;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
 import MlodyPucekIndustries.model.utils.Vector2D;
 
@@ -19,6 +20,8 @@ public interface WorldMap extends MoveValidator {
     Vector2D getJungleLowerLeft();
 
     Vector2D getJungleUpperRight();
+
+    AnimalTree getAnimalTree();
 
     void placeGrass(Grass grass);
 

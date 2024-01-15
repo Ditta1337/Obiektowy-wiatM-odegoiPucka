@@ -54,4 +54,18 @@ public class RandomPositionGenerator implements Iterable<Vector2D> {
             }
         };
     }
+
+    public static int[] permutationGenerator(int length){
+        int[] permutation = new int[length];
+        for(int i = 0; i < length; i++){
+            permutation[i] = i;
+        }
+        for(int i = 0; i < length; i++){
+            int randomIndex = (int) (Math.random() * length);
+            int temp = permutation[i];
+            permutation[i] = permutation[randomIndex];
+            permutation[randomIndex] = temp;
+        }
+        return permutation;
+    }
 }

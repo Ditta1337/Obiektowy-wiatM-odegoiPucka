@@ -1,5 +1,6 @@
 package MlodyPucekIndustries.model.elements;
 
+import java.util.Arrays;
 import java.util.Objects;
 import MlodyPucekIndustries.model.utils.*;
 import MlodyPucekIndustries.model.maps.MoveValidator;
@@ -78,7 +79,7 @@ public class Animal implements WorldElement {
 
     @Override
     public int hashCode() {
-        return Objects.hash(direction, position);
+        return Objects.hash(Arrays.hashCode(genome), baseTick, birthTick);
     }
 
     @Override

@@ -2,10 +2,9 @@ package MlodyPucekIndustries.model.maps;
 
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
-import MlodyPucekIndustries.model.utils.MapVisualizer;
-import MlodyPucekIndustries.model.utils.MultipleHashMap;
-import MlodyPucekIndustries.model.utils.Vector2D;
+import MlodyPucekIndustries.model.utils.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,14 +17,21 @@ public class MapManager {
     private final Vector2D[] junglePositions;
     private final Vector2D[] steppePositions;
     private final WorldMap map;
+    private final AnimalTree animalTree;
     private final int fedThreshold;
     private final int grassEnergy;
     private final boolean mutationVariation;
     private long tick = 0;
+    private final int grassSpawnNumber;
+    private final int minMutationNumber;
+    private final int maxMutationNumber;
 
     public MapManager(int defaultGrassEnergy,
                       int fedThreshold,
                       boolean mutationVariation,
+                      int grassSpawnNumber,
+                      int minMutationNumber,
+                      int maxMutationNumber,
                       WorldMap map) {
         this.grassEnergy = defaultGrassEnergy;
         this.map = map;
@@ -36,17 +42,22 @@ public class MapManager {
         this.mutationVariation = mutationVariation;
         this.junglePositions = generateJungle();
         this.steppePositions = generateSteppe();
+        this.grassSpawnNumber = grassSpawnNumber;
+        this.minMutationNumber = minMutationNumber;
+        this.maxMutationNumber = maxMutationNumber;
+        this.animalTree = map.getAnimalTree();
     }
 
     public void start() {
         map.initiate();
         MapVisualizer visualizer = new MapVisualizer(map);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             System.out.println(visualizer.draw(new Vector2D(0, 0), new Vector2D(map.getWidth() - 1, map.getHeight() - 1)));
             tickAnimalMove();
             tickEnF();
             map.modifyTideState();
             tickSpawnGrass();
+            map.getAnimalTree().checkIfRootsAreAlive();
             increaseTick();
         }
     }
@@ -109,15 +120,16 @@ public class MapManager {
 
     public void tickAnimalMove(){
         for(Animal animal: animals.values()) {
-            move(animal);
             if (animal.getEnergy() <= 0) {
                 animals.remove(animal, animal.getPosition());
                 System.out.println("Died on " + animal.getPosition());
+            } else {
+                move(animal);
             }
         }
     }
 
-    private void reproduce(Animal animal1, Animal animal2){
+    public void reproduce(Animal animal1, Animal animal2){
         int[] genome1 = animal1.getGenome();
         int[] genome2 = animal2.getGenome();
         int genomeLength = genome1.length;
@@ -139,20 +151,27 @@ public class MapManager {
             newGenome[i] = genome2[i];
         }
 
+        int mutationNumber = (int) (Math.random() * (maxMutationNumber - minMutationNumber)) + minMutationNumber;
         if (mutationVariation) {
-            int firstIndex = (int) (Math.random() * genomeLength);
-            int secondIndex = (int) (Math.random() * genomeLength);
-            int temp = newGenome[firstIndex];
-            newGenome[firstIndex] = newGenome[secondIndex];
-            newGenome[secondIndex] = temp;
+            for (int i = 0; i < mutationNumber; i++) {
+                int firstIndex = (int) (Math.random() * genomeLength);
+                int secondIndex = (int) (Math.random() * genomeLength);
+                int temp = newGenome[firstIndex];
+                newGenome[firstIndex] = newGenome[secondIndex];
+                newGenome[secondIndex] = temp;
+            }
         }
         else {
-            // TODO: Zapytac o to ile genow ma byc losowane -> parametr
-            newGenome[(int) (Math.random() * genomeLength)] = (int) (Math.random() * 8);
+            for (int i = 0; i < mutationNumber; i++) {
+                newGenome[(int) (Math.random() * genomeLength)] = (int) (Math.random() * 8);
+            }
         }
 
+        // TODO: zamiast 0.33 dać parametr
+        Animal child = new Animal(tick, (int) (0.33 * animal1Energy) + (int) (0.33 * animal2Energy), newGenome, animal1.getPosition());
+        animals.put(child);
+        animalTree.addAnimal(child, animal1, animal2);
 
-        animals.put(new Animal(tick, (int) (0.33 * animal1Energy) + (int) (0.33 * animal2Energy), newGenome, animal1.getPosition()));
 
         animal1.modifyEnergy((int) (-0.33 * animal1Energy));
         animal2.modifyEnergy((int) (-0.33 * animal2Energy));
@@ -174,6 +193,8 @@ public class MapManager {
                         eatGrass(dominantPair[0], position);
                     }
                     if (dominantPair[0].getEnergy() >= fedThreshold && dominantPair[1].getEnergy() >= fedThreshold) {
+                        System.out.println(dominantPair[0].hashCode());
+                        System.out.println(dominantPair[1].hashCode());
                         reproduce(dominantPair[0], dominantPair[1]);
                     }
 
@@ -183,16 +204,85 @@ public class MapManager {
         }
     }
 
-    // todo: sprawdzic czy jest woda na tym polu
-    public void tickSpawnGrass(){
-        for(Vector2D position: steppePositions){
-            if(!grasses.containsKey(position) && Math.random() < 0.2){
-                map.placeGrass(new Grass(position));
+    private void fillLeftOverGrass(Vector2D[] region,
+                                   int[] permutation,
+                                   int index,
+                                   int leftOverGrass){
+        for (int i = 0; i < leftOverGrass; i++) {
+            if (index < region.length) {
+                Vector2D position = region[permutation[index]];
+                index++;
+                if (map.canMoveTo(position) && !grasses.containsKey(position)) {
+                    grasses.put(position, new Grass(position));
+                }
+            }
+            else {
+                break;
             }
         }
-        for(Vector2D position: junglePositions){
-            if(!grasses.containsKey(position) && Math.random() < 0.8){
-                map.placeGrass(new Grass(position));
+    }
+
+    private int placeGrassInRandomPosition(Vector2D[] region1,
+                                           Vector2D[] region2,
+                                           int[] permutation1,
+                                           int[] permutation2,
+                                           int index1,
+                                           int index2,
+                                           int placedGrass) {
+        boolean placed = false;
+        while(!placed) {
+            if (index1 < region1.length) {
+                Vector2D position = region1[permutation1[index1]];
+                index1++;
+                if (map.canMoveTo(position) && !grasses.containsKey(position)) {
+                    grasses.put(position, new Grass(position));
+                    placed = true;
+                }
+            }
+            else{
+                fillLeftOverGrass(region2, permutation2, index2, grassSpawnNumber - placedGrass);
+                return -1;
+            }
+        }
+        return index1;
+    }
+
+
+    public void tickSpawnGrass(){
+        int[] steppePermutation = RandomPositionGenerator.permutationGenerator(steppePositions.length);
+        int[] junglePermutation = RandomPositionGenerator.permutationGenerator(junglePositions.length);
+        int steppeIndex = 0;
+        int jungleIndex = 0;
+        for (int i = 0; i < grassSpawnNumber; i++){
+            if (Math.random() < 0.2) {
+                    int newI = placeGrassInRandomPosition(steppePositions,
+                            junglePositions,
+                            steppePermutation,
+                            junglePermutation,
+                            steppeIndex,
+                            jungleIndex,
+                            i);
+                    if (newI >= 0) {
+                        steppeIndex = newI;
+                    }
+                    else{
+                        return;
+                    }
+                }
+            else {
+                int newI = placeGrassInRandomPosition(junglePositions,
+                        steppePositions,
+                        junglePermutation,
+                        steppePermutation,
+                        jungleIndex,
+                        steppeIndex,
+                        i);
+                if (newI >= 0) {
+                    jungleIndex = newI;
+                }
+                else{
+                    return;
+                }
             }
         }
     }

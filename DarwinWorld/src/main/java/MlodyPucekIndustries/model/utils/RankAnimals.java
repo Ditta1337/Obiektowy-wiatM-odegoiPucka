@@ -31,18 +31,21 @@ public class RankAnimals {
         }
     }
 
+    // TODO: check if it works
     public static Animal[] getDominantPair(List<Animal> animals) {
-        Animal[] returnList = new Animal[2];
-        for (int i = 0; i < 2; i++) {
-            Animal maxAnimal = animals.get(i);
-            for (int j = i; j < animals.size(); j++) {
-                if (compareAnimals(maxAnimal, animals.get(j))) {
-                    maxAnimal = animals.get(j);
-                }
+        Animal[] dominantPair = new Animal[2];
+        dominantPair[0] = animals.get(0);
+        dominantPair[1] = animals.get(1);
+        for (int i = 2; i < animals.size(); i++) {
+            if (compareAnimals(animals.get(i), dominantPair[0])) {
+                dominantPair[1] = dominantPair[0];
+                dominantPair[0] = animals.get(i);
+            } else if (compareAnimals(animals.get(i), dominantPair[1])) {
+                dominantPair[1] = animals.get(i);
             }
-            returnList[i] = maxAnimal;
         }
-        return returnList;
+        System.out.println("Dominant pair: " + dominantPair[0].getEnergy() + " " + dominantPair[1].getEnergy());
+        return dominantPair;
     }
 }
 
