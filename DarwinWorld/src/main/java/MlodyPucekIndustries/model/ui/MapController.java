@@ -68,31 +68,23 @@ public class MapController {
         mapGrid.add(label, 0, height);
 
 
-        ArrayList<WorldElement> elements = map.getElements();
-        double maxDepth = 2;
-        double maxEnergy = 500;
+        double maxEnergy = 1000;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Rectangle rect = new Rectangle(cellSize, cellSize);
-                rect.setFill(Color.LIGHTGREEN); // default color if no element
+                WorldElement element = map.objectAt(new Vector2D(x, y));
 
-                for (WorldElement element : elements) {
-                    Vector2D position = element.getPosition();
-                    if (position.getX() == x && position.getY() == y) {
-                        if (element instanceof Grass) {
-                            rect.setFill(Color.GREEN);
-                        } else if (element instanceof Water) {
-                            double depth = ((Water) element).getDepth();
-                            rect.setFill(Color.hsb(195, 1, -1.4 * depth + 1.7)); // Cyan color with brightness based on depth
-                        } else if (element instanceof Animal) {
-                            double energy = ((Animal) element).getEnergy();
-                            // TODO: naprawić kolor zwierzaka bo energy bywa wieksze niz maxEnergy i wydupcla error
-                            rect.setFill(new Color(1, 0, 0, 1 - energy / maxEnergy)); // Red color with opacity based on energy
-                        }
-                        break;
-                    }
+                if (element instanceof Grass) {
+                    rect.setFill(Color.GREEN);
+                } else if (element instanceof Water) {
+                    double depth = ((Water) element).getDepth();
+                    rect.setFill(Color.hsb(195, 1, -1.4 * depth + 1.7)); // Cyan color with brightness based on depth
+                } else if (element instanceof Animal) {
+                    double energy = ((Animal) element).getEnergy();
+                    rect.setFill(new Color(1, 0, 0, 1 - energy / maxEnergy));
+                } else {
+                    rect.setFill(Color.LIGHTGREEN);
                 }
-
                 mapGrid.add(rect, x + 1, height - y - 1);
             }
         }
