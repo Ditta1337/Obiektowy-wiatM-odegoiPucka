@@ -2,10 +2,7 @@ package MlodyPucekIndustries.model.utils;
 
 import MlodyPucekIndustries.model.maps.MoveValidator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class RandomPositionGenerator implements Iterable<Vector2D> {
@@ -45,8 +42,10 @@ public class RandomPositionGenerator implements Iterable<Vector2D> {
             @Override
             public Vector2D next() {
                 if (hasNext()) {
+                    Vector2D position = positions.get(generatedCount);
                     generatedCount++;
-                    return positions.get(generatedCount);
+                    return position;
+
 
                 } else {
                     throw new IndexOutOfBoundsException("No more positions to generate");

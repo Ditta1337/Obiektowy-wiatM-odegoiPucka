@@ -22,6 +22,8 @@ public class RegularMap implements WorldMap {
     private final int animalEnergy;
     private final int genomeLength;
     private final AnimalTree animalTree = new AnimalTree();
+    private int deadAnimalsNum = 0;
+    private long cumulativeLifeSpan = 0;
     protected MultipleHashMap animals;
     protected HashMap<Vector2D, Grass> grasses = new HashMap<>();
 
@@ -50,6 +52,15 @@ public class RegularMap implements WorldMap {
         placeDefaultGrasses();
     }
 
+    public void addDeadAnimal(long age) {
+        deadAnimalsNum++;
+        cumulativeLifeSpan += age;
+    }
+
+    public double getAverageLifeSpan() {
+        return Math.floor(((double) cumulativeLifeSpan / deadAnimalsNum) * 100) / 100;
+    }
+
     public int getHeight() {
         return height;
     }
@@ -68,6 +79,10 @@ public class RegularMap implements WorldMap {
 
     public AnimalTree getAnimalTree(){
         return animalTree;
+    }
+
+    public int getGenomeLength() {
+        return genomeLength;
     }
 
     public void placeAnimal(Animal animal) {
@@ -154,7 +169,6 @@ public class RegularMap implements WorldMap {
     public void modifyTideState() {
         // has to be left empty in regular map
     }
-
 }
 
 // map manager z mapy

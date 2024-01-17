@@ -15,8 +15,9 @@ public class MenuMain extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("MlodyPucekIndustries/model/ui/menu.fxml"));
         BorderPane viewRoot = loader.load();
-        primaryStage.setScene(new Scene(viewRoot, 1000, 1000));
+        primaryStage.setScene(new Scene(viewRoot));
         primaryStage.setTitle("Menu");
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 }

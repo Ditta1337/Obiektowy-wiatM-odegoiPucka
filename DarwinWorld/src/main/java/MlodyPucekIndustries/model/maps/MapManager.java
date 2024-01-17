@@ -65,6 +65,8 @@ public class MapManager {
         return positions;
     }
 
+
+
     private Vector2D[] generateJungle() {
         Vector2D jungleLowerLeft = map.getJungleLowerLeft();
         Vector2D jungleUpperRight = map.getJungleUpperRight();
@@ -115,6 +117,7 @@ public class MapManager {
             if (animal.getEnergy() <= 0) {
                 animals.remove(animal, animal.getPosition());
                 System.out.println("Died on " + animal.getPosition());
+                map.addDeadAnimal(animal.getAge());
             } else {
                 move(animal);
             }

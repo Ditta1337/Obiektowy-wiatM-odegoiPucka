@@ -6,66 +6,62 @@ import MlodyPucekIndustries.model.elements.Water;
 import MlodyPucekIndustries.model.elements.WorldElement;
 import MlodyPucekIndustries.model.maps.WorldMap;
 import MlodyPucekIndustries.model.simulation.Simulation;
+import MlodyPucekIndustries.model.utils.Statistics;
 import MlodyPucekIndustries.model.utils.Vector2D;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class MapController {
     private Simulation simulation;
+    private Statistics statistics;
     private int mapHeight;
+    private long tick = 0;
+    private XYChart.Series<Number, Number> animalsSeries = new XYChart.Series<>();
+    private XYChart.Series<Number, Number> grassSeries = new XYChart.Series<>();
+    private XYChart.Series<Number, Number> emptyPlacesSeries = new XYChart.Series<>();
 
     public void setSimulation(Simulation simulation) {
         this.simulation = simulation;
+        this.statistics = simulation.getStatistics();
+        // Add series to chart
+        chart.getData().add(animalsSeries);
+        chart.getData().add(grassSeries);
+        chart.getData().add(emptyPlacesSeries);
+
+        // Optional: Set names for the series
+        animalsSeries.setName("Animals");
+        grassSeries.setName("Grass");
+        emptyPlacesSeries.setName("Empty Places");
+
     }
 
     @FXML
     private GridPane mapGrid;
 
+    @FXML
+    private LineChart<Number, Number> chart;
+
     public void drawMap(WorldMap map) {
         clearGrid();
-
+        updateChart();
+        tick++;
         int width = map.getWidth();
         int height = map.getHeight();
-        int cellSize = 900 / Math.max(width, height);
+        int cellSize = 800 / Math.max(width, height);
         GridPane.setHalignment(mapGrid, HPos.CENTER);
-
-        // plot y axis
-        for (int y = height - 1; y >= 0; y--) {
-            mapGrid.getRowConstraints().add(new RowConstraints(cellSize));
-            Label label = new Label();
-            label.setText(String.valueOf(y));
-            GridPane.setHalignment(label, HPos.CENTER);
-            GridPane.setValignment(label, VPos.CENTER);
-            mapGrid.add(label, 0, height - y - 1);
-        }
-
-        // plot x axis
-        for (int x = 0; x < width; x++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(cellSize));
-            Label label = new Label();
-            label.setText(String.valueOf(x));
-            GridPane.setHalignment(label, HPos.CENTER);
-            GridPane.setValignment(label, VPos.CENTER);
-            mapGrid.add(label, x + 1, height);
-        }
-
-        // plot "y/x"
-        mapGrid.getRowConstraints().add(new RowConstraints(cellSize)); // for the axis labels
-        mapGrid.getColumnConstraints().add(new ColumnConstraints(cellSize)); // for the axis labels
-        Label label = new Label();
-        label.setText("y/x");
-        GridPane.setHalignment(label, HPos.CENTER);
-        GridPane.setValignment(label, VPos.CENTER);
-        mapGrid.add(label, 0, height);
 
 
         double maxEnergy = 1000;
@@ -86,6 +82,7 @@ public class MapController {
                     rect.setFill(Color.LIGHTGREEN);
                 }
                 mapGrid.add(rect, x + 1, height - y - 1);
+
             }
         }
     }
@@ -99,4 +96,45 @@ public class MapController {
     public void onStartStopClicked() {
         simulation.pauseUnpause();
     }
+
+    private void updateChart(){
+        int numAnimals = statistics.getAnimalsCount();
+        int numGrass = statistics.getGrassesCount();
+        int emptyPlaces = statistics.getEmptyPlaces();
+        int[] mostPopularGenome = statistics.getDominantGenome();
+        int averageEnergy = statistics.getAverageEnergy();
+        double averageChildren = statistics.getAverageChildrenCount();
+        double averageLifeSpan = statistics.getAverageLifeSpan();
+
+        System.out.println("Animals: " + numAnimals);
+        System.out.println("Grass: " + numGrass);
+        System.out.println("Empty places: " + emptyPlaces);
+        System.out.println("Most popular genome: " + Arrays.toString(mostPopularGenome));
+        System.out.println("Average energy: " + averageEnergy);
+        System.out.println("Average children: " + averageChildren);
+        System.out.println("Average life span: " + averageLifeSpan);
+
+
+        // Add data to series. Assuming 'time' as X-axis.
+        // Replace 'time' with appropriate variable from your code.
+        animalsSeries.getData().add(new XYChart.Data<>(tick, numAnimals));
+        grassSeries.getData().add(new XYChart.Data<>(tick, numGrass));
+        emptyPlacesSeries.getData().add(new XYChart.Data<>(tick, emptyPlaces));
+
+        if (tick > 100) {
+            tick = -1;
+            animalsSeries.getData().clear();
+            grassSeries.getData().clear();
+            emptyPlacesSeries.getData().clear();
+        }
+
+        ObservableList<XYChart.Series<Number, Number>> chartData = FXCollections.observableArrayList(chart.getData());
+        chart.setData(FXCollections.observableArrayList());
+        chart.setData(chartData);
+
+    }
+
+
+
+
 }

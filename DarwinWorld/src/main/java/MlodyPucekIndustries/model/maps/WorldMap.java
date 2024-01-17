@@ -35,5 +35,11 @@ public interface WorldMap extends MoveValidator {
     void initiate();
 
     ArrayList<WorldElement> getElements();
+
+    int getGenomeLength();
+
+    double getAverageLifeSpan();
+
+    void addDeadAnimal(long age);
 }
 

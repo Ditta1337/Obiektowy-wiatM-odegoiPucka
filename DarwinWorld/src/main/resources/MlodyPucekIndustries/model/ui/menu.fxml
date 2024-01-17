@@ -40,8 +40,8 @@
 
                 <VBox alignment="CENTER">
                     <Label text="Min Mutation Number"/>
-                    <Slider fx:id="minMutation"/>
-                    <Label fx:id="minMutationShow" text="0"/>
+                    <Slider fx:id="minMutation" max="1" value="1"/>
+                    <Label fx:id="minMutationShow" text="1"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
@@ -82,8 +82,8 @@
 
                 <VBox alignment="CENTER">
                     <Label text="Max Mutation Number"/>
-                    <Slider fx:id="maxMutation" min="0" max="10" value="1"/>
-                    <Label fx:id="maxMutationShow" text="0" alignment="CENTER"/>
+                    <Slider fx:id="maxMutation" max="10" value="1"/>
+                    <Label fx:id="maxMutationShow" text="1" alignment="CENTER"/>
                 </VBox>
 
                 <VBox alignment="CENTER">

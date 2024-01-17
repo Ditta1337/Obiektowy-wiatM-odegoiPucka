@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
 
-<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="MlodyPucekIndustries.model.ui.MapController">
@@ -10,15 +11,27 @@
     <stylesheets>
         <URL value="@styles.css"/>
     </stylesheets>
+    <left>
+        <VBox>
+            <VBox alignment="TOP_CENTER">
+                <LineChart fx:id="chart" createSymbols="false">
+                    <xAxis>
+                        <NumberAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+            <VBox alignment="BOTTOM_CENTER">
+                <Button text="Stop/Start" onAction="#onStartStopClicked" styleClass="button"/>
+            </VBox>
+        </VBox>
+    </left>
     <center>
         <VBox alignment="CENTER" styleClass="center-container">
             <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true"/>
         </VBox>
     </center>
-    <bottom>
-        <VBox alignment="CENTER" styleClass="bottom-container">
-            <Button text="Stop/Start" onAction="#onStartStopClicked" styleClass="button"/>
-        </VBox>
-    </bottom>
 </BorderPane>
 

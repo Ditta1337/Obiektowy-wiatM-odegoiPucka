@@ -27,7 +27,7 @@ public class AnimalTree {
                     child.parentDeleted();
                     cleanTreeRec(child);
                 }
-                nodes.remove(node.getAnimal());
+                removeAnimal(node.getAnimal());
                 node = null;
             }
         }
@@ -74,6 +74,8 @@ public class AnimalTree {
         nodes.put(animal, node);
 
         if (hasTwoParents) {
+            System.out.println(parent1);
+            System.out.println(parent2);
             nodes.get(parent1).addChild(node);
             nodes.get(parent2).addChild(node);
         } else {
