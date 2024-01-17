@@ -2,7 +2,10 @@ package MlodyPucekIndustries.model.maps;
 
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
+import MlodyPucekIndustries.model.observers.AnimalStatsDisplay;
+import MlodyPucekIndustries.model.ui.MapController;
 import MlodyPucekIndustries.model.utils.*;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ public class MapManager {
     private final int grassSpawnNumber;
     private final int minMutationNumber;
     private final int maxMutationNumber;
+    private final double energySharePercentage;
 
     public MapManager(int defaultGrassEnergy,
                       int fedThreshold,
@@ -32,6 +36,7 @@ public class MapManager {
                       int grassSpawnNumber,
                       int minMutationNumber,
                       int maxMutationNumber,
+                      double energySharePercentage,
                       WorldMap map) {
         this.grassEnergy = defaultGrassEnergy;
         this.map = map;
@@ -45,21 +50,8 @@ public class MapManager {
         this.grassSpawnNumber = grassSpawnNumber;
         this.minMutationNumber = minMutationNumber;
         this.maxMutationNumber = maxMutationNumber;
+        this.energySharePercentage = energySharePercentage;
         this.animalTree = map.getAnimalTree();
-    }
-
-    public void start() {
-        map.initiate();
-        MapVisualizer visualizer = new MapVisualizer(map);
-        for (int i = 0; i < 50; i++) {
-            System.out.println(visualizer.draw(new Vector2D(0, 0), new Vector2D(map.getWidth() - 1, map.getHeight() - 1)));
-            tickAnimalMove();
-            tickEnF();
-            map.modifyTideState();
-            tickSpawnGrass();
-            map.getAnimalTree().checkIfRootsAreAlive();
-            increaseTick();
-        }
     }
 
     private Vector2D[] generatePositions() {
@@ -136,6 +128,7 @@ public class MapManager {
         int animal1Energy = animal1.getEnergy();
         int animal2Energy = animal2.getEnergy();
         int[] newGenome = new int[genomeLength];
+        System.out.println("Reproduction on " + animal1.getPosition() + " with energies: " + animal1Energy + " and " + animal2Energy);
         int split = (int) (animal1Energy / (animal1Energy + animal2Energy)) * genomeLength;
         int side = (int) (Math.random() * 2);
 
@@ -167,8 +160,7 @@ public class MapManager {
             }
         }
 
-        // TODO: zamiast 0.33 dać parametr
-        Animal child = new Animal(tick, (int) (0.33 * animal1Energy) + (int) (0.33 * animal2Energy), newGenome, animal1.getPosition());
+        Animal child = new Animal(tick, (int) (energySharePercentage * animal1Energy) + (int) (energySharePercentage * animal2Energy), newGenome, animal1.getPosition());
         animals.put(child);
         animalTree.addAnimal(child, animal1, animal2);
 
@@ -178,7 +170,6 @@ public class MapManager {
         animal1.addChild();
         animal2.addChild();
 
-        System.out.println("Reproduction on " + animal1.getPosition());
     }
 
     public void tickEnF(){
@@ -186,15 +177,15 @@ public class MapManager {
             if (animals.containsKey(position)) {
                 List<Animal> animalsAtPosition = animals.get(position);
                 if (animalsAtPosition.size() == 1 && grasses.containsKey(position)) {
+                    animalsAtPosition.get(0).addEatenGrass();
                     eatGrass(animalsAtPosition.get(0), position);
                 } else if (animalsAtPosition.size() > 1) {
                     Animal[] dominantPair = getDominantPair(animalsAtPosition);
                     if (grasses.containsKey(position)) {
+                        dominantPair[0].addEatenGrass();
                         eatGrass(dominantPair[0], position);
                     }
                     if (dominantPair[0].getEnergy() >= fedThreshold && dominantPair[1].getEnergy() >= fedThreshold) {
-                        System.out.println(dominantPair[0].hashCode());
-                        System.out.println(dominantPair[1].hashCode());
                         reproduce(dominantPair[0], dominantPair[1]);
                     }
 

@@ -45,7 +45,7 @@ public class WaterMap extends RegularMap {
         double[][] waterLevels = perlinNoise2D.getWaterLevels(grassEdge, deepEdge);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height ; j++) {
-                double waterLevel = waterLevels[i][j];
+                double waterLevel = waterLevels[j][i];
                 if(waterLevel > grassEdge){
                     waters.put(new Vector2D(i,j), new Water(new Vector2D(i,j), waterLevel));
                 }
@@ -133,6 +133,17 @@ public class WaterMap extends RegularMap {
     @Override
     public boolean isOccupied(Vector2D position) {
         return super.isOccupied(position) || waters.containsKey(position) && waters.get(position).getDepth() >= tideState;
+    }
+
+    @Override
+    public ArrayList<WorldElement> getElements() {
+        ArrayList<WorldElement> elements = super.getElements();
+        for (Water water : waters.values()) {
+            if (water.getDepth() >= tideState) {
+                elements.add(water);
+            }
+        }
+        return elements;
     }
 
 }

@@ -44,10 +44,6 @@ public class RankAnimals {
                 dominantPair[1] = animals.get(i);
             }
         }
-        System.out.println("Dominant pair: " + dominantPair[0].getEnergy() + " " + dominantPair[1].getEnergy());
         return dominantPair;
     }
 }
-
-// TODO: Zapytac o to czy to jest ok
-// czy jak jest 2n zwierzakow to czy wszytkie pary sie rozmnazaja

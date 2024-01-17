@@ -13,6 +13,9 @@ public class Animal implements WorldElement {
     private final long birthTick;
     private int energy;
     private int children = 0;
+    private int eatenGrass = 0;
+    private long age = 0;
+
 
     public Animal(long tick, int energy, int[] genome, Vector2D position) {
         this.baseTick = (short) (Math.random() * genome.length);
@@ -20,6 +23,7 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.genome = genome;
         this.position = position;
+
         // changed
         direction = MapDirection.values()[genome[baseTick]];
         //direction = MapDirection.NE;
@@ -43,6 +47,22 @@ public class Animal implements WorldElement {
 
     public void addChild() {
         children++;
+    }
+
+    public void addEatenGrass() {
+        eatenGrass++;
+    }
+
+    public int getEatenGrass() {
+        return eatenGrass;
+    }
+
+    public long getAge() {
+        return age;
+    }
+
+    public int getActiveGenome() {
+        return genome[((short)(age % genome.length) + baseTick) % genome.length];
     }
 
     public void setPosition(Vector2D position) {
@@ -91,7 +111,9 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
+    // TODO: potencjalnie tick do wywalenia z tej metody, przez dodanie "age"
     public void move(long tick, MoveValidator validator) {
+        age++;
         Vector2D newPosition = position.add(direction.toUnitVector());
         if (validator.canMoveTo(newPosition)) {
             energy--;

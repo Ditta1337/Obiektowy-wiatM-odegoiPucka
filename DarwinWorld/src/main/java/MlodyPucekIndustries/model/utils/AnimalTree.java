@@ -2,7 +2,6 @@ package MlodyPucekIndustries.model.utils;
 
 import MlodyPucekIndustries.model.elements.Animal;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,8 +35,9 @@ public class AnimalTree {
 
     public void checkIfRootsAreAlive() {
         ArrayList<AnimalNode> rootsToRemove = new ArrayList<>();
-        for(AnimalNode root : roots){
-            if(root.getEnergy() <= 0){
+        for(int i=0; i<roots.size(); i++){
+            AnimalNode root = roots.get(i);
+            if(roots.get(i).getEnergy() <= 0){
                 cleanTreeRec(root);
                 rootsToRemove.add(root);
                 removeAnimal(root.getAnimal());
@@ -73,17 +73,7 @@ public class AnimalTree {
         AnimalNode node = new AnimalNode(animal, hasAncestors);
         nodes.put(animal, node);
 
-        // todo: Fix
-        // todo: test whole thing
         if (hasTwoParents) {
-            System.out.println("Parent1: " + parent1);
-            System.out.println("Parent2: " + parent2);
-            System.out.println(nodes.get(parent1));
-            System.out.println(nodes.get(parent2));
-            System.out.println(nodes.keySet());
-            System.out.println(nodes.values());
-            System.out.println(parent1.getEnergy());
-            System.out.println(parent2.getEnergy());
             nodes.get(parent1).addChild(node);
             nodes.get(parent2).addChild(node);
         } else {

@@ -118,8 +118,8 @@ public class RegularMap implements WorldMap {
     }
 
 
-    public List<WorldElement> getElements() {
-        List<WorldElement> elements = new ArrayList<>(animals.values());
+    public ArrayList<WorldElement> getElements() {
+        ArrayList<WorldElement> elements = new ArrayList<>(animals.values());
         elements.addAll(grasses.values());
         return elements;
     }

@@ -6,6 +6,7 @@ import MlodyPucekIndustries.model.utils.AnimalTree;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
 import MlodyPucekIndustries.model.utils.Vector2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface WorldMap extends MoveValidator {
@@ -32,5 +33,7 @@ public interface WorldMap extends MoveValidator {
     WorldElement objectAt(Vector2D position);
 
     void initiate();
+
+    ArrayList<WorldElement> getElements();
 }
 
