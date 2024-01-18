@@ -20,7 +20,6 @@ public class MapManager {
     private final Vector2D[] junglePositions;
     private final Vector2D[] steppePositions;
     private final WorldMap map;
-    private final AnimalTree animalTree;
     private final int fedThreshold;
     private final int grassEnergy;
     private final boolean mutationVariation;
@@ -51,7 +50,6 @@ public class MapManager {
         this.minMutationNumber = minMutationNumber;
         this.maxMutationNumber = maxMutationNumber;
         this.energySharePercentage = energySharePercentage;
-        this.animalTree = map.getAnimalTree();
     }
 
     private Vector2D[] generatePositions() {
@@ -118,6 +116,7 @@ public class MapManager {
                 animals.remove(animal, animal.getPosition());
                 System.out.println("Died on " + animal.getPosition());
                 map.addDeadAnimal(animal.getAge());
+                animal.die();
             } else {
                 move(animal);
             }
@@ -165,14 +164,13 @@ public class MapManager {
 
         Animal child = new Animal(tick, (int) (energySharePercentage * animal1Energy) + (int) (energySharePercentage * animal2Energy), newGenome, animal1.getPosition());
         animals.put(child);
-        animalTree.addAnimal(child, animal1, animal2);
 
-
-        animal1.modifyEnergy((int) (-0.33 * animal1Energy));
-        animal2.modifyEnergy((int) (-0.33 * animal2Energy));
-        animal1.addChild();
-        animal2.addChild();
-
+        animal1.modifyEnergy((int) (-energySharePercentage * animal1Energy));
+        animal2.modifyEnergy((int) (-energySharePercentage * animal2Energy));
+        animal1.addChild(child);
+        animal2.addChild(child);
+        child.addParent(animal1);
+        child.addParent(animal2);
     }
 
     public void tickEnF(){

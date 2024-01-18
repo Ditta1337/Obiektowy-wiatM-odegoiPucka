@@ -32,7 +32,6 @@ public class Simulation implements Runnable {
                 map.modifyTideState();
                 mapManager.tickSpawnGrass();
                 mapManager.increaseTick();
-                map.getAnimalTree().checkIfRootsAreAlive();
                 try {
                     Thread.sleep(250);
                 } catch (InterruptedException e) {

@@ -49,7 +49,7 @@ public class Statistics {
     public double getAverageChildrenCount() {
         long sum = 0;
         for (Animal animal : map.getAnimals().values()) {
-            sum += animal.getChildren();
+            sum += animal.getChildrenNum();
         }
         try {
             return  Math.floor(((double) sum / getAnimalsCount()) * 100) / 100;

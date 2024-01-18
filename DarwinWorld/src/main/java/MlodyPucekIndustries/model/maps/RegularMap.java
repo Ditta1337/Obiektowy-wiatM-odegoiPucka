@@ -3,14 +3,12 @@ package MlodyPucekIndustries.model.maps;
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
-import MlodyPucekIndustries.model.utils.AnimalTree;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
 import MlodyPucekIndustries.model.utils.RandomPositionGenerator;
 import MlodyPucekIndustries.model.utils.Vector2D;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class RegularMap implements WorldMap {
     protected final int height;
@@ -21,7 +19,6 @@ public class RegularMap implements WorldMap {
     private final int defaultGrass;
     private final int animalEnergy;
     private final int genomeLength;
-    private final AnimalTree animalTree = new AnimalTree();
     private int deadAnimalsNum = 0;
     private long cumulativeLifeSpan = 0;
     protected MultipleHashMap animals;
@@ -77,20 +74,12 @@ public class RegularMap implements WorldMap {
         return jungleUpperRight;
     }
 
-    public AnimalTree getAnimalTree(){
-        return animalTree;
-    }
-
     public int getGenomeLength() {
         return genomeLength;
     }
 
     public void placeAnimal(Animal animal) {
         animals.put(animal);
-    }
-
-    public void placeGrass(Grass grass) {
-        grasses.put(grass.getPosition(), grass);
     }
 
 
@@ -112,7 +101,6 @@ public class RegularMap implements WorldMap {
         for (Vector2D position : generator) {
             Animal animal = new Animal(0, animalEnergy, generateGenome(genomeLength), position);
             placeAnimal(animal);
-            animalTree.addAnimal(animal, null, null);
         }
     }
 

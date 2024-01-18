@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 public class RankAnimals {
-    // todo: animal jako comarable i logika w animalu
     private static boolean compareAnimals(Animal animal1, Animal animal2) {
         if (animal1.getEnergy() > animal2.getEnergy()) {
             return true;
@@ -15,9 +14,9 @@ public class RankAnimals {
             if (animal1.getBirthTick() < animal2.getBirthTick()) {
                 return true;
             } else if (animal1.getBirthTick() == animal2.getBirthTick()) {
-                if (animal1.getChildren() > animal2.getChildren()) {
+                if (animal1.getChildrenNum() > animal2.getChildrenNum()) {
                     return true;
-                } else if (animal1.getChildren() == animal2.getChildren()) {
+                } else if (animal1.getChildrenNum() == animal2.getChildrenNum()) {
                     Random random = new Random();
                     return random.nextBoolean();
                 } else {

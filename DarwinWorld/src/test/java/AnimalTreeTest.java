@@ -1,8 +1,6 @@
 import MlodyPucekIndustries.model.elements.Animal;
-import MlodyPucekIndustries.model.utils.AnimalNode;
 import MlodyPucekIndustries.model.utils.Vector2D;
 import org.junit.jupiter.api.Test;
-import MlodyPucekIndustries.model.utils.AnimalTree;
 
 import java.util.HashMap;
 

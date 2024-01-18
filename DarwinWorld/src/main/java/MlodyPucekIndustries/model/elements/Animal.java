@@ -1,6 +1,8 @@
 package MlodyPucekIndustries.model.elements;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import MlodyPucekIndustries.model.utils.*;
 import MlodyPucekIndustries.model.maps.MoveValidator;
@@ -12,9 +14,10 @@ public class Animal implements WorldElement {
     private final short baseTick;
     private final long birthTick;
     private int energy;
-    private int children = 0;
     private int eatenGrass = 0;
     private long age = 0;
+    private ArrayList<Animal> childrenList = new ArrayList<>();
+    private ArrayList<Animal> parentsList = new ArrayList<>();
 
 
     public Animal(long tick, int energy, int[] genome, Vector2D position) {
@@ -24,9 +27,56 @@ public class Animal implements WorldElement {
         this.genome = genome;
         this.position = position;
 
-        // changed
         direction = MapDirection.values()[genome[baseTick]];
-        //direction = MapDirection.NE;
+    }
+
+    public void addChild(Animal child){
+        childrenList.add(child);
+    }
+
+    public void addParent(Animal parent){
+        parentsList.add(parent);
+    }
+
+    public void removeChild(Animal child){
+        childrenList.remove(child);
+    }
+
+    public void removeParent(Animal parent){
+        parentsList.remove(parent);
+    }
+
+    public void die() {
+        for (Animal parent : parentsList) {
+            parent.removeChild(this);
+            for (Animal child : childrenList) {
+                parent.addChild(child);
+                child.addParent(parent);
+            }
+        }
+        for (Animal child : childrenList) {
+            child.removeParent(this);
+        }
+    }
+
+    public int getDescendants(){
+        HashSet<Animal> children = new HashSet<>();
+        return getDescendantsRec(children, 0);
+    }
+
+    private int getDescendantsRec(HashSet<Animal> children, int count){
+        for(Animal child : childrenList){
+            if(!children.contains(child)){
+                children.add(child);
+                count = child.getDescendantsRec(children, count + 1);
+            }
+        }
+        return count;
+
+    }
+
+    public int getChildrenNum(){
+        return childrenList.size();
     }
 
     public void modifyEnergy(int value){
@@ -39,14 +89,6 @@ public class Animal implements WorldElement {
 
     public long getBirthTick() {
         return birthTick;
-    }
-
-    public int getChildren() {
-        return children;
-    }
-
-    public void addChild() {
-        children++;
     }
 
     public void addEatenGrass() {
