@@ -2,7 +2,6 @@ package MlodyPucekIndustries.model.maps;
 
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
-import MlodyPucekIndustries.model.observers.AnimalStatsDisplay;
 import MlodyPucekIndustries.model.ui.MapController;
 import MlodyPucekIndustries.model.utils.*;
 import javafx.application.Platform;

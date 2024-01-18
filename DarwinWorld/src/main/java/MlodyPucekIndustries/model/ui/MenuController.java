@@ -7,6 +7,8 @@ import MlodyPucekIndustries.model.maps.WaterMap;
 import MlodyPucekIndustries.model.maps.WorldMap;
 import MlodyPucekIndustries.model.simulation.Simulation;
 import MlodyPucekIndustries.model.simulation.SimulationEngine;
+import MlodyPucekIndustries.model.utils.Save;
+import MlodyPucekIndustries.model.utils.Saver;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +63,8 @@ public class MenuController implements Initializable{
     private ChoiceBox mapChoice;
     @FXML
     private CheckBox switchGenome;
+    @FXML
+    private ChoiceBox saveChoice;
 
     private SpinnerValueFactory<Integer> valueFactory = null;
 
@@ -86,10 +90,23 @@ public class MenuController implements Initializable{
         minMutation.valueProperty().addListener((observable, oldValue, newValue) -> setMinMutationSliderValue());
         genomeLength.valueProperty().addListener((observable, oldValue, newValue) -> setMaxMutationValue());
         maxMutation.valueProperty().addListener((observable, oldValue, newValue) -> setMinMutationValue());
+        initiateSaveChoiceBoxes();
+    }
+
+    private void initiateSaveChoiceBoxes() {
+        Saver saver = new Saver();
+        int numberOfSaves = saver.getNumElementsInSaveFolder();
+        for (int i=0; i<numberOfSaves; i++) {
+            saveChoice.getItems().add(i);
+        }
+        saveChoice.setValue(0);
     }
 
     private void onHeightChanged(){
         System.out.println("Height changed");
+        if (height.getValue() < 10) {
+            height.getValueFactory().setValue(10);
+        }
         int value = min(List.of(height.getValue(),jungleHeight.getValue()));
         valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,height.getValue(),value);
         jungleHeight.setValueFactory(valueFactory);
@@ -98,6 +115,9 @@ public class MenuController implements Initializable{
 
     private void onWidthChanged(){
         System.out.println("Width changed");
+        if (width.getValue() < 10) {
+            width.getValueFactory().setValue(10);
+        }
         int value = min(List.of(width.getValue(),jungleWidth.getValue()));
         valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,width.getValue(),value);
         jungleWidth.setValueFactory(valueFactory);
@@ -125,7 +145,7 @@ public class MenuController implements Initializable{
     }
 
     private void setMaxMutationValue() {
-        int maxValue = genomeLength.getValue();
+        int maxValue = Math.max(genomeLength.getValue(), 1);
         maxMutation.setMax(maxValue);
     }
 
@@ -176,6 +196,8 @@ public class MenuController implements Initializable{
                 map
         );
 
+        // TODO: try catch dla złych wartości
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("MlodyPucekIndustries/model/ui/map.fxml"));
         BorderPane viewRoot = loader.load();
@@ -200,6 +222,61 @@ public class MenuController implements Initializable{
         });
 
         stage.show();
+    }
 
+    public void onSaveButtonClicked() {
+        System.out.println("Save button clicked");
+        Save save = new Save(
+                width.getValue(),
+                height.getValue(),
+                jungleHeight.getValue(),
+                jungleWidth.getValue(),
+                initialAnimal.getValue(),
+                startAnimalEnergy.getValue(),
+                genomeLength.getValue(),
+                (int) Math.round(minMutation.getValue()),
+                (int) Math.round(maxMutation.getValue()),
+                energySharePercentage.getValue(),
+                initialGrassNumber.getValue(),
+                grassEnergy.getValue(),
+                fedThreshold.getValue(),
+                grassSpawn.getValue(),
+                switchGenome.isSelected(),
+                mapChoice.getValue().toString()
+        );
+        Saver saver = new Saver();
+        saver.saveMenu(save);
+        saveChoice.getItems().add(saveChoice.getItems().size());
+    }
+
+    public void onLoadButtonClicked() {
+        System.out.println("Load button clicked");
+
+        Saver saver = new Saver();
+        Save save = saver.loadMenu((int) saveChoice.getValue());
+        width.getValueFactory().setValue(save.getWidth());
+        height.getValueFactory().setValue(save.getHeight());
+        jungleWidth.getValueFactory().setValue(save.getJungleWidth());
+        jungleHeight.getValueFactory().setValue(save.getJungleHeight());
+        initialAnimal.getValueFactory().setValue(save.getInitialAnimal());
+        startAnimalEnergy.getValueFactory().setValue(save.getStartAnimalEnergy());
+        genomeLength.getValueFactory().setValue(save.getGenomeLength());
+        minMutation.setValue(save.getMinMutation());
+        maxMutation.setValue(save.getMaxMutation());
+        energySharePercentage.getValueFactory().setValue(save.getEnergySharePercentage());
+        initialGrassNumber.getValueFactory().setValue(save.getInitialGrassNumber());
+        grassEnergy.getValueFactory().setValue(save.getGrassEnergy());
+        fedThreshold.getValueFactory().setValue(save.getFedThreshold());
+        grassSpawn.getValueFactory().setValue(save.getGrassSpawn());
+        switchGenome.setSelected(save.isSwitchGenome());
+        mapChoice.setValue(save.getMapChoice());
+
+        setMaxMutationSliderValue();
+        setMinMutationSliderValue();
+
+        setMaxMutationValue();
+        setMinMutationValue();
+
+        setValidMapDependentValues();
     }
 }
