@@ -1,0 +1,39 @@
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-padding: 10 20;
+    -fx-border-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.bottom-container {
+    -fx-padding: 10;
+}
+
+.text-field {
+    -fx-font-size: 20px;
+    -fx-padding: 10;
+    -border-radius: 5;
+    -fx-border-color: #4CAF50;
+}
+
+.top-container {
+    -fx-padding: 10;
+}
+
+.center-container {
+    -fx-padding: 10;
+}
+
+.move-annotation {
+    -fx-font-size: 20px;
+    -fx-padding: 30;
+}
+
+.left-container {
+    -fx-padding: 10;
+}

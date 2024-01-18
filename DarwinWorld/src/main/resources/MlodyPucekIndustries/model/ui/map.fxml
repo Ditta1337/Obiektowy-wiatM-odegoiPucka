@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="MlodyPucekIndustries.model.ui.MapController">
+
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+    <left>
+        <VBox styleClass="left-container">
+            <VBox alignment="TOP_CENTER">
+                <LineChart fx:id="chart" createSymbols="false" minHeight="350">
+                    <xAxis>
+                        <NumberAxis fx:id="xAxis" side="BOTTOM" lowerBound="0" upperBound="100" autoRanging="false"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+            <VBox alignment="CENTER">
+                <HBox spacing="7">
+                    <Button fx:id="showJungle" onAction="#onShowJungleClicked" text="Show jungle" styleClass="button" disable="true" visible="false"/>
+                    <Button text="Stop/Start" onAction="#onStartStopClicked" styleClass="button"/>
+                    <Button fx:id="showDominantAnimals" onAction="#onShowDominantAnimalsClicked" text="Show dominant animals" styleClass="button" disable="true" visible="false"/>
+
+                </HBox>
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+            </VBox>
+            <HBox alignment="BOTTOM_CENTER" spacing="10">
+                <VBox alignment="CENTER" spacing="20"  style="-fx-font-size: 15px;">
+                    <VBox alignment="CENTER" spacing="5">
+                        <Label text="Most popular genome:"/>
+                        <Label fx:id="mostPopularGenome" text="None" wrapText="true" maxWidth="250"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="5">
+                        <Label text="Average energy:"/>
+                        <Label fx:id="averageEnergy" text="None"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="5">
+                        <Label text="Average children count:"/>
+                        <Label fx:id="averageChildren" text="None"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="5">
+                        <Label text="Average life span:"/>
+                        <Label fx:id="averageLifeSpan" text="None"/>
+                    </VBox>
+                </VBox>
+                <VBox alignment="CENTER" spacing="7"  style="-fx-font-size: 15px;">
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="genomeDesc" text="Here will be yours selected animal stats."/>
+                        <Label fx:id="genome" wrapText="true" maxWidth="250"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="activeGenomeDesc"/>
+                        <Label fx:id="activeGenome"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="childrenDesc"/>
+                        <Label fx:id="children"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="eatenGrassDesc"/>
+                        <Label fx:id="eatenGrass"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="descendantsDesc"/>
+                        <Label fx:id="descendants"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="energyDesc"/>
+                        <Label fx:id="energy"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="daysAliveDesc"/>
+                        <Label fx:id="daysAlive"/>
+                    </VBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" styleClass="center-container">
+            <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true"/>
+        </VBox>
+    </center>
+</BorderPane>
+
