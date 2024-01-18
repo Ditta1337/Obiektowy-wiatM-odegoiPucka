@@ -9,12 +9,12 @@ import MlodyPucekIndustries.model.utils.Vector2D;
 import javafx.application.Platform;
 
 public class Simulation implements Runnable {
-    private MapManager mapManager;
+    private final MapManager mapManager;
     private boolean isPaused = false;
     private boolean stoppedRunning = false;
-    private WorldMap map;
-    private MapController mapController;
-    private Statistics statistics;
+    private final WorldMap map;
+    private final MapController mapController;
+    private final Statistics statistics;
     private Animal observedAnimal = null;
 
     public Simulation (MapManager mapManager, WorldMap map, MapController mapController) {
@@ -40,12 +40,12 @@ public class Simulation implements Runnable {
                 }
                 mapManager.tickAnimalMove();
                 mapManager.tickEnF();
-                map.modifyTideState();
+                map.customMapFeature();
                 mapManager.tickSpawnGrass();
                 mapManager.increaseTick();
 
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(350);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

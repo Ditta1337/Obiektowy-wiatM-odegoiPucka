@@ -2,11 +2,7 @@ package MlodyPucekIndustries.model.maps;
 
 import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
-import MlodyPucekIndustries.model.ui.MapController;
 import MlodyPucekIndustries.model.utils.*;
-import javafx.application.Platform;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -113,7 +109,7 @@ public class MapManager {
         for(Animal animal: animals.values()) {
             if (animal.getEnergy() <= 0) {
                 animals.remove(animal, animal.getPosition());
-                System.out.println("Died on " + animal.getPosition());
+                // System.out.println("Died on " + animal.getPosition());
                 map.addDeadAnimal(animal.getAge());
                 animal.die();
             } else {
@@ -129,8 +125,8 @@ public class MapManager {
         int animal1Energy = animal1.getEnergy();
         int animal2Energy = animal2.getEnergy();
         int[] newGenome = new int[genomeLength];
-        System.out.println("Reproduction on " + animal1.getPosition() + " with energies: " + animal1Energy + " and " + animal2Energy);
-        int split = (int) (animal1Energy / (animal1Energy + animal2Energy)) * genomeLength;
+        // System.out.println("Reproduction on " + animal1.getPosition() + " with energies: " + animal1Energy + " and " + animal2Energy);
+        int split = animal1Energy / (animal1Energy + animal2Energy) * genomeLength;
         int side = (int) (Math.random() * 2);
 
         if (side != 0) {

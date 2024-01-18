@@ -66,7 +66,7 @@ public class WaterMap extends RegularMap {
     }
 
     @Override
-    public void modifyTideState() {
+    public void customMapFeature() {
         tideState += deltaTide;
         if (deltaTide < 0) {
             removeSunkenGrasses();
@@ -86,7 +86,6 @@ public class WaterMap extends RegularMap {
 
     private void removeSunkenGrasses() {
         for (Vector2D waterPosition : waters.keySet()) {
-            // TODO: check if >= tideState or > tideState
             if (grasses.containsKey(waterPosition) && waters.get(waterPosition).getDepth() >= tideState) {
                 grasses.remove(waterPosition);
             }

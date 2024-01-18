@@ -10,14 +10,14 @@ import MlodyPucekIndustries.model.maps.MoveValidator;
 public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2D position;
-    private int[] genome;
+    private final int[] genome;
     private final short baseTick;
     private final long birthTick;
     private int energy;
     private int eatenGrass = 0;
     private long age = 0;
-    private ArrayList<Animal> childrenList = new ArrayList<>();
-    private ArrayList<Animal> parentsList = new ArrayList<>();
+    private final ArrayList<Animal> childrenList = new ArrayList<>();
+    private final ArrayList<Animal> parentsList = new ArrayList<>();
 
 
     public Animal(long tick, int energy, int[] genome, Vector2D position) {
@@ -111,9 +111,6 @@ public class Animal implements WorldElement {
         this.position = position;
     }
 
-    public void setDirection(MapDirection direction) {
-        this.direction = direction;
-    }
 
     public MapDirection getDirection() {
         return this.direction;
@@ -153,7 +150,6 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    // TODO: potencjalnie tick do wywalenia z tej metody, przez dodanie "age"
     public void move(long tick, MoveValidator validator) {
         age++;
         Vector2D newPosition = position.add(direction.toUnitVector());

@@ -2,7 +2,6 @@ package MlodyPucekIndustries.model.utils;
 
 import MlodyPucekIndustries.model.elements.Animal;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +29,6 @@ public class RankAnimals {
         }
     }
 
-    // TODO: check if it works
     public static Animal[] getDominantPair(List<Animal> animals) {
         Animal[] dominantPair = new Animal[2];
         dominantPair[0] = animals.get(0);

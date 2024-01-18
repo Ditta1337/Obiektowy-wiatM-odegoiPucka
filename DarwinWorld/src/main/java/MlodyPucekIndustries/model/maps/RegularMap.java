@@ -44,36 +44,44 @@ public class RegularMap implements WorldMap {
         this.genomeLength = genomeLength;
     }
 
+    @Override
     public void initiate() {
         placeDefaultAnimals();
         placeDefaultGrasses();
     }
 
+    @Override
     public void addDeadAnimal(long age) {
         deadAnimalsNum++;
         cumulativeLifeSpan += age;
     }
 
+    @Override
     public double getAverageLifeSpan() {
         return Math.floor(((double) cumulativeLifeSpan / deadAnimalsNum) * 100) / 100;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public Vector2D getJungleLowerLeft() {
         return jungleLowerLeft;
     }
 
+    @Override
     public Vector2D getJungleUpperRight() {
         return jungleUpperRight;
     }
 
+    @Override
     public int getGenomeLength() {
         return genomeLength;
     }
@@ -104,10 +112,12 @@ public class RegularMap implements WorldMap {
         }
     }
 
+    @Override
     public MultipleHashMap getAnimals() {
         return animals;
     }
 
+    @Override
     public HashMap<Vector2D, Grass> getGrasses() {
         return grasses;
     }
@@ -121,17 +131,19 @@ public class RegularMap implements WorldMap {
     }
 
 
+    @Override
     public ArrayList<WorldElement> getElements() {
         ArrayList<WorldElement> elements = new ArrayList<>(animals.values());
         elements.addAll(grasses.values());
         return elements;
     }
 
+    @Override
     public boolean canMoveTo(Vector2D position) {
         return position.getY() >= 0 && position.getY() < height;
     }
 
-    //counting form 0
+    @Override
     public Vector2D validPosition(Vector2D position) {
         if (position.getX() < 0) {
             position = new Vector2D(width -1, position.getY());
@@ -143,22 +155,23 @@ public class RegularMap implements WorldMap {
         return position;
     }
 
+    @Override
     public boolean isOccupied(Vector2D position) {
         return !animals.get(position).isEmpty() || grasses.containsKey(position);
     }
 
+    @Override
     public WorldElement objectAt(Vector2D position) {
         if (!animals.get(position).isEmpty()) {
             return animals.get(position).get(0);
         } else return grasses.getOrDefault(position, null);
     }
 
-    // TODO: zapytać czy moze zostac puste
-    public void modifyTideState() {
+    @Override
+    public void customMapFeature() {
         // has to be left empty in regular map
     }
 }
 
-// map manager z mapy
 
 

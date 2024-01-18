@@ -21,7 +21,7 @@ public interface WorldMap extends MoveValidator {
 
     Vector2D getJungleUpperRight();
 
-    void modifyTideState();
+    void customMapFeature();
 
     boolean isOccupied(Vector2D position);
 

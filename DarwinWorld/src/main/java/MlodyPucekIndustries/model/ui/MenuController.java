@@ -1,21 +1,16 @@
 package MlodyPucekIndustries.model.ui;
 
-import MlodyPucekIndustries.model.elements.Water;
 import MlodyPucekIndustries.model.maps.MapManager;
 import MlodyPucekIndustries.model.maps.RegularMap;
 import MlodyPucekIndustries.model.maps.WaterMap;
 import MlodyPucekIndustries.model.maps.WorldMap;
 import MlodyPucekIndustries.model.simulation.Simulation;
-import MlodyPucekIndustries.model.simulation.SimulationEngine;
 import MlodyPucekIndustries.model.utils.Save;
 import MlodyPucekIndustries.model.utils.Saver;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -108,7 +103,6 @@ public class MenuController implements Initializable{
     }
 
     private void onHeightChanged(){
-        System.out.println("Height changed");
         if (height.getValue() < 10) {
             height.getValueFactory().setValue(10);
         }
@@ -119,7 +113,6 @@ public class MenuController implements Initializable{
     }
 
     private void onWidthChanged(){
-        System.out.println("Width changed");
         if (width.getValue() < 10) {
             width.getValueFactory().setValue(10);
         }
@@ -160,11 +153,7 @@ public class MenuController implements Initializable{
     }
 
     public void onStartButtonClicked() throws Exception {
-        System.out.println("Start button clicked");
-        int startAnimalEnergyValue = startAnimalEnergy.getValue().intValue();
-        System.out.println(startAnimalEnergyValue);
-        System.out.println("Height: " + height.getValue());
-        WorldMap map = null;
+        WorldMap map;
         if (mapChoice.getValue().equals("RegularMap")) {
             map = new RegularMap(
                     height.getValue(),
@@ -201,8 +190,6 @@ public class MenuController implements Initializable{
                 map
         );
 
-        // TODO: try catch dla złych wartości
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("MlodyPucekIndustries/model/ui/map.fxml"));
         BorderPane viewRoot = loader.load();
@@ -214,7 +201,6 @@ public class MenuController implements Initializable{
         stage.setScene(new Scene(viewRoot));
         stage.setTitle("Simulation window");
 
-        // set prefHeight and prefWidth to fullscreen
         stage.setMaximized(true);
 
         Thread simulationThread = new Thread(simulation);
@@ -222,7 +208,6 @@ public class MenuController implements Initializable{
         simulationThread.start();
 
         stage.setOnCloseRequest(e -> {
-            // stop the thread with simulation
             simulation.stopRunning();
         });
 
@@ -230,7 +215,6 @@ public class MenuController implements Initializable{
     }
 
     public void onSaveButtonClicked() {
-        System.out.println("Save button clicked");
         Save save = new Save(
                 width.getValue(),
                 height.getValue(),
@@ -256,8 +240,6 @@ public class MenuController implements Initializable{
     }
 
     public void onLoadButtonClicked() {
-        System.out.println("Load button clicked");
-
         Saver saver = new Saver();
         try {
             Save save = saver.loadMenu((int) saveChoice.getValue());
