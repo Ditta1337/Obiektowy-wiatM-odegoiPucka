@@ -1,40 +1,40 @@
 package MlodyPucekIndustries.model.maps;
 
-import MlodyPucekIndustries.model.elements.Animal;
 import MlodyPucekIndustries.model.elements.Grass;
 import MlodyPucekIndustries.model.elements.WorldElement;
 import MlodyPucekIndustries.model.utils.MultipleHashMap;
-import MlodyPucekIndustries.model.utils.Vector2d;
+import MlodyPucekIndustries.model.utils.Vector2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public interface WorldMap extends MoveValidator {
-    void placeAnimal(Animal animal);
-
-    void placeGrass(Grass grass);
-
-    void placeDefaultGrasses();
-
-    void placeDefaultAnimals();
-
-    // only for MapVisualizer
-    boolean isOccupied(Vector2d position);
-
-    // only for MapVisualizer
-    WorldElement objectAt(Vector2d position);
-
-    List<WorldElement> getElements();
-
     MultipleHashMap getAnimals();
 
-    HashMap<Vector2d, Grass> getGrasses();
+    HashMap<Vector2D, Grass> getGrasses();
 
-    Vector2d getUpperRight();
+    int getWidth();
 
-    Vector2d getJungleLowerLeft();
+    int getHeight();
 
-    Vector2d getJungleUpperRight();
+    Vector2D getJungleLowerLeft();
 
+    Vector2D getJungleUpperRight();
+
+    void customMapFeature();
+
+    boolean isOccupied(Vector2D position);
+
+    WorldElement objectAt(Vector2D position);
+
+    void initiate();
+
+    ArrayList<WorldElement> getElements();
+
+    int getGenomeLength();
+
+    double getAverageLifeSpan();
+
+    void addDeadAnimal(long age);
 }
 

@@ -1,4 +1,5 @@
 package MlodyPucekIndustries.model.utils;
+
 import MlodyPucekIndustries.model.maps.WorldMap;
 
 public class MapVisualizer {
@@ -11,7 +12,7 @@ public class MapVisualizer {
         this.map = map;
     }
 
-    public String draw(Vector2d lowerLeft, Vector2d upperRight) {
+    public String draw(Vector2D lowerLeft, Vector2D upperRight) {
         StringBuilder builder = new StringBuilder();
         for (int i = upperRight.getY() + 1; i >= lowerLeft.getY() - 1; i--) {
             if (i == upperRight.getY() + 1) {
@@ -24,7 +25,7 @@ public class MapVisualizer {
                 } else {
                     builder.append(CELL_SEGMENT);
                     if (j <= upperRight.getX()) {
-                        builder.append(drawObject(new Vector2d(j, i)));
+                        builder.append(drawObject(new Vector2D(j, i)));
                     }
                 }
             }
@@ -41,7 +42,7 @@ public class MapVisualizer {
         }
     }
 
-    private String drawHeader(Vector2d lowerLeft, Vector2d upperRight) {
+    private String drawHeader(Vector2D lowerLeft, Vector2D upperRight) {
         StringBuilder builder = new StringBuilder();
         builder.append(" y\\x ");
         for (int j = lowerLeft.getX(); j < upperRight.getX() + 1; j++) {
@@ -51,7 +52,7 @@ public class MapVisualizer {
         return builder.toString();
     }
 
-    private String drawObject(Vector2d currentPosition) {
+    private String drawObject(Vector2D currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             Object object = this.map.objectAt(currentPosition);
             if (object != null) {

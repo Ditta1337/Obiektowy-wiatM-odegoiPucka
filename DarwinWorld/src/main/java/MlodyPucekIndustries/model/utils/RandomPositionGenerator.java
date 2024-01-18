@@ -2,13 +2,10 @@ package MlodyPucekIndustries.model.utils;
 
 import MlodyPucekIndustries.model.maps.MoveValidator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
-public class RandomPositionGenerator implements Iterable<Vector2d> {
+public class RandomPositionGenerator implements Iterable<Vector2D> {
 
     private final int maxWidth;
     private final int maxHeight;
@@ -24,13 +21,13 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     }
 
     @Override
-    public Iterator<Vector2d> iterator() {
-        List<Vector2d> positions = new ArrayList<>();
+    public Iterator<Vector2D> iterator() {
+        List<Vector2D> positions = new ArrayList<>();
 
         for (int x = 0; x <= maxWidth; x++) {
             for (int y = 0; y <= maxHeight; y++) {
-                if (validator.canMoveTo(new Vector2d(x, y))) {
-                    positions.add(new Vector2d(x, y));
+                if (validator.canMoveTo(new Vector2D(x, y))) {
+                    positions.add(new Vector2D(x, y));
                 }
             }
         }
@@ -43,15 +40,31 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             }
 
             @Override
-            public Vector2d next() {
+            public Vector2D next() {
                 if (hasNext()) {
+                    Vector2D position = positions.get(generatedCount);
                     generatedCount++;
-                    return positions.get(generatedCount);
+                    return position;
+
 
                 } else {
                     throw new IndexOutOfBoundsException("No more positions to generate");
                 }
             }
         };
+    }
+
+    public static int[] permutationGenerator(int length){
+        int[] permutation = new int[length];
+        for(int i = 0; i < length; i++){
+            permutation[i] = i;
+        }
+        for(int i = 0; i < length; i++){
+            int randomIndex = (int) (Math.random() * length);
+            int temp = permutation[i];
+            permutation[i] = permutation[randomIndex];
+            permutation[randomIndex] = temp;
+        }
+        return permutation;
     }
 }

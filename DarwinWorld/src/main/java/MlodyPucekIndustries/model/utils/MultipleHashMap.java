@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 import MlodyPucekIndustries.model.elements.Animal;
 public class MultipleHashMap {
-    HashMap<Vector2d, ArrayList<Animal>> animalsMap = new HashMap<>();
+    HashMap<Vector2D, ArrayList<Animal>> animalsMap = new HashMap<>();
     public MultipleHashMap(int height, int width){
         for(int i = 0;i < width;i += 1){
             for(int j = 0; j < height; j += 1){
-                animalsMap.put(new Vector2d(i,j),new ArrayList<>());
+                animalsMap.put(new Vector2D(i,j),new ArrayList<>());
             }
         }
     }
@@ -17,11 +17,11 @@ public class MultipleHashMap {
         (animalsMap.get(animal.getPosition())).add(animal);
     }
 
-    public void remove(Animal animal, Vector2d position){
+    public void remove(Animal animal, Vector2D position){
         (animalsMap.get(position)).remove(animal);
     }
 
-    public ArrayList<Animal> get(Vector2d position) {
+    public ArrayList<Animal> get(Vector2D position) {
         return animalsMap.get(position);
     }
 
@@ -33,7 +33,7 @@ public class MultipleHashMap {
         return elements;
     }
 
-    public boolean containsKey(Vector2d position){
+    public boolean containsKey(Vector2D position){
         return !(animalsMap.get(position)).isEmpty();
     }
 }

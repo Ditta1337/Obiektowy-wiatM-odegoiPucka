@@ -2,11 +2,11 @@ package MlodyPucekIndustries.model.utils;
 
 import java.util.Objects;
 
-public class Vector2d {
+public class Vector2D {
     private final int x;
     private final int y;
 
-    public Vector2d(int x, int y) {
+    public Vector2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -24,10 +24,10 @@ public class Vector2d {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof Vector2d)) {
+        if (!(other instanceof Vector2D)) {
             return false;
         }
-        Vector2d vector = (Vector2d) other;
+        Vector2D vector = (Vector2D) other;
         return x == vector.getX() && y == vector.getY();
     }
 
@@ -41,31 +41,31 @@ public class Vector2d {
         return "(" + x + "," + y + ")";
     }
 
-    public boolean precedes(Vector2d other) {
+    public boolean precedes(Vector2D other) {
         return x <= other.getX() && y <= other.getY();
     }
 
-    public boolean follows(Vector2d other) {
+    public boolean follows(Vector2D other) {
         return x >= other.getX() && y >= other.getY();
     }
 
-    public Vector2d add(Vector2d other) {
-        return new Vector2d(x + other.getX(), y + other.getY());
+    public Vector2D add(Vector2D other) {
+        return new Vector2D(x + other.getX(), y + other.getY());
     }
 
-    public Vector2d subtract(Vector2d other) {
-        return new Vector2d(x - other.getX(), y - other.getY());
+    public Vector2D subtract(Vector2D other) {
+        return new Vector2D(x - other.getX(), y - other.getY());
     }
 
-    public Vector2d upperRight(Vector2d other) {
-        return new Vector2d(Math.max(x, other.getX()), Math.max(y, other.getY()));
+    public Vector2D upperRight(Vector2D other) {
+        return new Vector2D(Math.max(x, other.getX()), Math.max(y, other.getY()));
     }
 
-    public Vector2d lowerLeft(Vector2d other) {
-        return new Vector2d(Math.min(x, other.getX()), Math.min(y, other.getY()));
+    public Vector2D lowerLeft(Vector2D other) {
+        return new Vector2D(Math.min(x, other.getX()), Math.min(y, other.getY()));
     }
 
-    public Vector2d opposite() {
-        return new Vector2d(-x, -y);
+    public Vector2D opposite() {
+        return new Vector2D(-x, -y);
     }
 }
