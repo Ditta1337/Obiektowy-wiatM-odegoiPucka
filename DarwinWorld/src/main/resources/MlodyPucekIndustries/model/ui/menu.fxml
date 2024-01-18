@@ -12,16 +12,18 @@
         <URL value="@styles.css"/>
     </stylesheets>
     <left>
-        <VBox alignment="CENTER" spacing="30">
-            <Label text="Save Name"/>
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="saveButtonLabel" text="Saved map to .json!" visible="false"/>
             <Button styleClass="button" text="Save" onAction="#onSaveButtonClicked"/>
+            <Label text="Save stats to .csv"/>
+            <CheckBox fx:id="saveCsv"/>
             <padding>
                 <Insets  left="90"/>
             </padding>
         </VBox>
     </left>
     <right>
-        <VBox alignment="CENTER" spacing="30">
+        <VBox alignment="CENTER" spacing="10">
             <ChoiceBox fx:id="saveChoice" VBox.vgrow="NEVER"/>
             <Button styleClass="button" text="Load" onAction="#onLoadButtonClicked"/>
             <padding>

@@ -1,0 +1,1 @@
+{"width":150,"height":150,"jungleWidth":25,"jungleHeight":5,"initialAnimal":100,"startAnimalEnergy":25,"genomeLength":14,"minMutation":2,"maxMutation":8,"energySharePercentage":40,"initialGrassNumber":200,"grassEnergy":6,"fedThreshold":20,"grassSpawn":200,"mapChoice":"WaterMap","switchGenome":true}

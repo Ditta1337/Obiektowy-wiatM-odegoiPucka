@@ -6,6 +6,7 @@ import MlodyPucekIndustries.model.elements.Water;
 import MlodyPucekIndustries.model.elements.WorldElement;
 import MlodyPucekIndustries.model.maps.WorldMap;
 import MlodyPucekIndustries.model.simulation.Simulation;
+import MlodyPucekIndustries.model.utils.Saver;
 import MlodyPucekIndustries.model.utils.Statistics;
 import MlodyPucekIndustries.model.utils.Vector2D;
 import javafx.collections.FXCollections;
@@ -36,10 +37,13 @@ public class MapController {
     private Rectangle[][] rectangles;
     private boolean jungleVisible = false;
     private boolean dominantAnimalsVisible = false;
+    private boolean saveCsv = false;
+    private Saver saver = new Saver();
 
-    public void setSimulation(Simulation simulation) {
+    public void setSimulation(Simulation simulation, boolean saveCsv) {
         this.simulation = simulation;
         this.statistics = simulation.getStatistics();
+        this.saveCsv = saveCsv;
 
         // Add series to chart
         chart.getData().add(animalsSeries);
@@ -143,6 +147,9 @@ public class MapController {
     }
 
     public void drawMap(WorldMap map) {
+        if (saveCsv) {
+            saver.saveSimulationStatesTick(statistics, tick);
+        }
         if(!jungleVisible && !dominantAnimalsVisible){
             tick++;
             updateChart();
@@ -165,8 +172,8 @@ public class MapController {
                     double depth = ((Water) element).getDepth();
                     rect.setFill(Color.hsb(195, 1, -1.4 * depth + 1.7)); // Cyan color with brightness based on depth
                 } else if (element instanceof Animal) {
-                    double energy = Math.min(((Animal) element).getEnergy() / maxEnergy, 1);
-                    rect.setFill(new Color(1, 0, 0, 1 - energy));
+                    double energy = Math.min(Math.max(((Animal) element).getEnergy() / maxEnergy, 0.5), 1);
+                    rect.setFill(new Color(1, 0, 0, energy));
                 } else {
                     rect.setFill(Color.LIGHTGREEN);
                 }

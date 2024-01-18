@@ -65,6 +65,11 @@ public class MenuController implements Initializable{
     private CheckBox switchGenome;
     @FXML
     private ChoiceBox saveChoice;
+    @FXML
+    private CheckBox saveCsv;
+    @FXML
+    private Label saveButtonLabel;
+
 
     private SpinnerValueFactory<Integer> valueFactory = null;
 
@@ -213,7 +218,7 @@ public class MenuController implements Initializable{
         stage.setMaximized(true);
 
         Thread simulationThread = new Thread(simulation);
-        mapController.setSimulation(simulation);
+        mapController.setSimulation(simulation, saveCsv.isSelected());
         simulationThread.start();
 
         stage.setOnCloseRequest(e -> {
@@ -247,36 +252,42 @@ public class MenuController implements Initializable{
         Saver saver = new Saver();
         saver.saveMenu(save);
         saveChoice.getItems().add(saveChoice.getItems().size());
+        saveButtonLabel.visibleProperty().setValue(true);
     }
 
     public void onLoadButtonClicked() {
         System.out.println("Load button clicked");
 
         Saver saver = new Saver();
-        Save save = saver.loadMenu((int) saveChoice.getValue());
-        width.getValueFactory().setValue(save.getWidth());
-        height.getValueFactory().setValue(save.getHeight());
-        jungleWidth.getValueFactory().setValue(save.getJungleWidth());
-        jungleHeight.getValueFactory().setValue(save.getJungleHeight());
-        initialAnimal.getValueFactory().setValue(save.getInitialAnimal());
-        startAnimalEnergy.getValueFactory().setValue(save.getStartAnimalEnergy());
-        genomeLength.getValueFactory().setValue(save.getGenomeLength());
-        minMutation.setValue(save.getMinMutation());
-        maxMutation.setValue(save.getMaxMutation());
-        energySharePercentage.getValueFactory().setValue(save.getEnergySharePercentage());
-        initialGrassNumber.getValueFactory().setValue(save.getInitialGrassNumber());
-        grassEnergy.getValueFactory().setValue(save.getGrassEnergy());
-        fedThreshold.getValueFactory().setValue(save.getFedThreshold());
-        grassSpawn.getValueFactory().setValue(save.getGrassSpawn());
-        switchGenome.setSelected(save.isSwitchGenome());
-        mapChoice.setValue(save.getMapChoice());
+        try {
+            Save save = saver.loadMenu((int) saveChoice.getValue());
+            width.getValueFactory().setValue(save.getWidth());
+            height.getValueFactory().setValue(save.getHeight());
+            jungleWidth.getValueFactory().setValue(save.getJungleWidth());
+            jungleHeight.getValueFactory().setValue(save.getJungleHeight());
+            initialAnimal.getValueFactory().setValue(save.getInitialAnimal());
+            startAnimalEnergy.getValueFactory().setValue(save.getStartAnimalEnergy());
+            genomeLength.getValueFactory().setValue(save.getGenomeLength());
+            minMutation.setValue(save.getMinMutation());
+            maxMutation.setValue(save.getMaxMutation());
+            energySharePercentage.getValueFactory().setValue(save.getEnergySharePercentage());
+            initialGrassNumber.getValueFactory().setValue(save.getInitialGrassNumber());
+            grassEnergy.getValueFactory().setValue(save.getGrassEnergy());
+            fedThreshold.getValueFactory().setValue(save.getFedThreshold());
+            grassSpawn.getValueFactory().setValue(save.getGrassSpawn());
+            switchGenome.setSelected(save.isSwitchGenome());
+            mapChoice.setValue(save.getMapChoice());
 
-        setMaxMutationSliderValue();
-        setMinMutationSliderValue();
+            setMaxMutationSliderValue();
+            setMinMutationSliderValue();
 
-        setMaxMutationValue();
-        setMinMutationValue();
+            setMaxMutationValue();
+            setMinMutationValue();
 
-        setValidMapDependentValues();
+            setValidMapDependentValues();
+        } catch (Exception e) {
+            System.out.println("No save with this number");
+        }
+
     }
 }
