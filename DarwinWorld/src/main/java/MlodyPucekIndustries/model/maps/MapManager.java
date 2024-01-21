@@ -98,6 +98,9 @@ public class MapManager {
 
         animals.remove(animal, oldPosition);
         animals.put(animal);
+        if (animal == null) {
+            System.out.println("Animal is null");
+        }
     }
 
     public void eatGrass(Animal animal, Vector2D grassPosition){
@@ -107,6 +110,9 @@ public class MapManager {
 
     public void tickAnimalMove(){
         for(Animal animal: animals.values()) {
+            if (animal == null) {
+                System.out.println("Animal is null in tickAnimalMove");
+            }
             if (animal.getEnergy() <= 0) {
                 animals.remove(animal, animal.getPosition());
                 // System.out.println("Died on " + animal.getPosition());
@@ -159,6 +165,9 @@ public class MapManager {
 
         Animal child = new Animal(tick, (int) (energySharePercentage * animal1Energy) + (int) (energySharePercentage * animal2Energy), newGenome, animal1.getPosition());
         animals.put(child);
+        if (child == null) {
+            System.out.println("Child is null reproduction");
+        }
 
         animal1.modifyEnergy((int) (-energySharePercentage * animal1Energy));
         animal2.modifyEnergy((int) (-energySharePercentage * animal2Energy));

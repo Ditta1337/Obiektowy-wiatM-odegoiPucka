@@ -15,7 +15,7 @@ public class Simulation implements Runnable {
     private final WorldMap map;
     private final MapController mapController;
     private final Statistics statistics;
-    private Animal observedAnimal = null;
+    private Animal observedAnimal;
 
     public Simulation (MapManager mapManager, WorldMap map, MapController mapController) {
         this.mapManager = mapManager;
@@ -34,6 +34,7 @@ public class Simulation implements Runnable {
     public void run() {
         synchronized (this) {
             while (!isPaused && !stoppedRunning) {
+                statistics.updateStats();
                 Platform.runLater(() -> mapController.drawMap(map));
                 if (observedAnimal != null) {
                     Platform.runLater(() -> mapController.drawObservedAnimal(observedAnimal));

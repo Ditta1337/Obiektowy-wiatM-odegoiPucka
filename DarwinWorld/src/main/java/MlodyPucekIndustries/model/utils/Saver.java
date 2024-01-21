@@ -63,8 +63,8 @@ public class Saver {
                 writer.write("Tick,AnimalsCount,GrassesCount,EmptyPlaces,AverageEnergy,AverageChildrenCount,AverageLifeSpan,DominantGenome\n");
             }
             writer.write(tick + ",");
-            writer.write(statistics.getAnimalsCount() + ",");
-            writer.write(statistics.getGrassesCount() + ",");
+            writer.write(statistics.getAnimalCount() + ",");
+            writer.write(statistics.getGrassCount() + ",");
             writer.write(statistics.getEmptyPlaces() + ",");
             writer.write(statistics.getAverageEnergy() + ",");
             writer.write(statistics.getAverageChildrenCount() + ",");

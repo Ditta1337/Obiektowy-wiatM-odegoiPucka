@@ -189,9 +189,9 @@ public class MapController {
         simulation.pauseUnpause();
     }
 
-    private void updateChart(){
-        int numAnimals = statistics.getAnimalsCount();
-        int numGrass = statistics.getGrassesCount();
+    public void updateChart(){
+        int numAnimals = statistics.getAnimalCount();
+        int numGrass = statistics.getGrassCount();
         int emptyPlaces = statistics.getEmptyPlaces();
         int[] mostPopularGenome = statistics.getDominantGenome();
         int averageEnergy = statistics.getAverageEnergy();

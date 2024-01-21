@@ -98,6 +98,9 @@ public class WaterMap extends RegularMap {
             ArrayList<Animal> animalsToRemove = new ArrayList<>();
             if (animals.containsKey(waterPosition)) {
                 for (Animal animal : animals.get(waterPosition)) {
+                    if (animal == null) {
+                        System.out.println("null animal moveOrDie");
+                    }
                     int randomIndex = (int) (Math.random() * 8);
                     for (int i = 0; i < 8 && !animalMoved; i++) {
                         Vector2D newPosition = animal.getPosition().add(MapDirection.values()[randomIndex].toUnitVector());
@@ -115,7 +118,12 @@ public class WaterMap extends RegularMap {
                     }
                 }
                 for (Animal animal : animalsToRemove) {
+                    animal.die();
+                    addDeadAnimal(animal.getAge());
                     animals.remove(animal, waterPosition);
+                    if (animal == null) {
+                        System.out.println("null animal moveOrDie 125");
+                    }
                 }
             }
         }

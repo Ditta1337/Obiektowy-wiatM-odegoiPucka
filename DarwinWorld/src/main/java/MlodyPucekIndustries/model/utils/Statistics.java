@@ -8,20 +8,68 @@ import java.util.HashMap;
 public class Statistics {
     private long cumulativeLifeSpan = 0;
     private final WorldMap map;
+    private int emptyPlaces = 0;
+    private int animalCount = 0;
+    private int grassCount = 0;
+    private int averageEnergy = 0;
+    private double averageChildrenCount = 0;
+    private double averageLifeSpan = 0;
+    private int[] dominantGenome;
+
+
 
     public Statistics(WorldMap map) {
         this.map = map;
+        this.dominantGenome = new int[map.getGenomeLength()];
     }
 
-    public int getAnimalsCount() {
-        return map.getAnimals().values().size();
+    public int getEmptyPlaces() {
+        return emptyPlaces;
     }
 
-    public int getGrassesCount() {
-        return map.getGrasses().size();
+    public int getAnimalCount() {
+        return animalCount;
     }
 
-    public int getEmptyPlaces(){
+    public int getGrassCount() {
+        return grassCount;
+    }
+
+    public int getAverageEnergy() {
+        return averageEnergy;
+    }
+
+    public double getAverageChildrenCount() {
+        return averageChildrenCount;
+    }
+
+    public double getAverageLifeSpan() {
+        return averageLifeSpan;
+    }
+
+    public int[] getDominantGenome() {
+        return dominantGenome;
+    }
+
+    public void updateStats() {
+        updateAverageLifeSpan();
+        updateAnimalsCount();
+        updateGrassesCount();
+        updateEmptyPlaces();
+        updateAverageEnergy();
+        updateAverageChildrenCount();
+        updateDominantGenome();
+    }
+
+    private void updateAnimalsCount() {
+        this.animalCount = map.getAnimals().values().size();
+    }
+
+    private void updateGrassesCount() {
+        this.grassCount = map.getGrasses().size();
+    }
+
+    private void updateEmptyPlaces(){
         int emptyPlaces = 0;
         for(int i = 0; i < map.getWidth(); i++){
             for(int j = 0; j < map.getHeight(); j++){
@@ -30,40 +78,40 @@ public class Statistics {
                 }
             }
         }
-        return emptyPlaces;
+        this.emptyPlaces = emptyPlaces;
     }
 
-    public int getAverageEnergy() {
+    private void updateAverageEnergy() {
         int sum = 0;
         for (Animal animal : map.getAnimals().values()) {
             sum += animal.getEnergy();
         }
         try {
-            return sum / getAnimalsCount();
+            this.averageEnergy = sum / animalCount;
         }
         catch (ArithmeticException e){
-            return 0;
+               this.averageEnergy = 0;
         }
     }
 
-    public double getAverageChildrenCount() {
+    private void updateAverageChildrenCount() {
         long sum = 0;
         for (Animal animal : map.getAnimals().values()) {
             sum += animal.getChildrenNum();
         }
         try {
-            return  Math.floor(((double) sum / getAnimalsCount()) * 100) / 100;
+             this.averageChildrenCount = Math.floor(((double) sum / animalCount) * 100) / 100;
         }
         catch (ArithmeticException e){
-            return 0;
+            this.averageChildrenCount = 0;
         }
     }
 
-    public double getAverageLifeSpan() {
-        return map.getAverageLifeSpan();
+    private void updateAverageLifeSpan() {
+        this.averageLifeSpan = map.getAverageLifeSpan();
     }
 
-    public int[] getDominantGenome(){
+    private void updateDominantGenome(){
         HashMap<int[], Integer> genomes = new HashMap<>();
         for(Animal animal : map.getAnimals().values()){
             int[] genome = animal.getGenome();
@@ -82,6 +130,6 @@ public class Statistics {
                 mostPopularGenome = genome;
             }
         }
-        return mostPopularGenome;
+        this.dominantGenome = mostPopularGenome;
     }
 }
