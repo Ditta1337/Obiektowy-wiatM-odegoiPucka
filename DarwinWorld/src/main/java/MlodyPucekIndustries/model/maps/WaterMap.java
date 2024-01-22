@@ -92,39 +92,49 @@ public class WaterMap extends RegularMap {
         }
     }
 
+//    private void moveOrDie() {
+//        for (Vector2D waterPosition : waters.keySet()) {
+//            boolean animalMoved = false;
+//            ArrayList<Animal> animalsToRemove = new ArrayList<>();
+//            if (animals.containsKey(waterPosition)) {
+//                for (Animal animal : animals.get(waterPosition)) {
+//                    int randomIndex = (int) (Math.random() * 8);
+//                    for (int i = 0; i < 8 && !animalMoved; i++) {
+//                        Vector2D newPosition = animal.getPosition().add(MapDirection.values()[randomIndex].toUnitVector());
+//                        newPosition = validPosition(newPosition);
+//                        if (canMoveTo(newPosition)) {
+//                            animal.setPosition(newPosition);
+//                            animalsToRemove.add(animal);
+//                            animals.put(animal);
+//                            animalMoved = true;
+//                        }
+//                        randomIndex = (randomIndex + 1) % 8;
+//                    }
+//                    if (!animalMoved) {
+//                        animalsToRemove.add(animal);
+//                    }
+//                }
+//                for (Animal animal : animalsToRemove) {
+//                    animal.die();
+//                    addDeadAnimal(animal.getAge());
+//                    animals.remove(animal, waterPosition);
+//                }
+//            }
+//        }
+//    }
+
     private void moveOrDie() {
+        ArrayList<Animal> animalsToRemove = new ArrayList<>();
         for (Vector2D waterPosition : waters.keySet()) {
-            boolean animalMoved = false;
-            ArrayList<Animal> animalsToRemove = new ArrayList<>();
             if (animals.containsKey(waterPosition)) {
                 for (Animal animal : animals.get(waterPosition)) {
-                    if (animal == null) {
-                        System.out.println("null animal moveOrDie");
-                    }
-                    int randomIndex = (int) (Math.random() * 8);
-                    for (int i = 0; i < 8 && !animalMoved; i++) {
-                        Vector2D newPosition = animal.getPosition().add(MapDirection.values()[randomIndex].toUnitVector());
-                        newPosition = validPosition(newPosition);
-                        if (canMoveTo(newPosition)) {
-                            animal.setPosition(newPosition);
-                            animalsToRemove.add(animal);
-                            animals.put(animal);
-                            animalMoved = true;
-                        }
-                        randomIndex = (randomIndex + 1) % 8;
-                    }
-                    if (!animalMoved) {
-                        animalsToRemove.add(animal);
-                    }
-                }
-                for (Animal animal : animalsToRemove) {
                     animal.die();
                     addDeadAnimal(animal.getAge());
-                    animals.remove(animal, waterPosition);
-                    if (animal == null) {
-                        System.out.println("null animal moveOrDie 125");
-                    }
+                    animalsToRemove.add(animal);
                 }
+            }
+            for (Animal animal : animalsToRemove) {
+                animals.remove(animal, waterPosition);
             }
         }
     }

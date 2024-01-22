@@ -34,19 +34,18 @@ public class Simulation implements Runnable {
     public void run() {
         synchronized (this) {
             while (!isPaused && !stoppedRunning) {
-                statistics.updateStats();
-                Platform.runLater(() -> mapController.drawMap(map));
-                if (observedAnimal != null) {
-                    Platform.runLater(() -> mapController.drawObservedAnimal(observedAnimal));
-                }
                 mapManager.tickAnimalMove();
                 mapManager.tickEnF();
                 map.customMapFeature();
                 mapManager.tickSpawnGrass();
                 mapManager.increaseTick();
-
+                statistics.updateStats();
+                Platform.runLater(() -> mapController.drawMap(map));
+                if (observedAnimal != null) {
+                    Platform.runLater(() -> mapController.drawObservedAnimal(observedAnimal));
+                }
                 try {
-                    Thread.sleep(350);
+                    Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
