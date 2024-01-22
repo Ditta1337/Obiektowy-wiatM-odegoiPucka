@@ -39,7 +39,7 @@
                 <VBox alignment="CENTER">
                     <Label text="Height"/>
                     <!-- when you change the value of the spinner, invoke method onHighChanged -->
-                    <Spinner fx:id="height" min="10" max="500" initialValue="10"/>
+                    <Spinner fx:id="height" editable="true" min="10" max="500" initialValue="10"/>
                 </VBox>
                 <VBox alignment="CENTER">
                     <Label text="Jungle Height"/>
@@ -48,17 +48,17 @@
 
                 <VBox alignment="CENTER">
                     <Label text="Initial Animal Number"/>
-                    <Spinner fx:id="initialAnimal" min="1" max="100" initialValue="10"/>
+                    <Spinner fx:id="initialAnimal" editable="true" min="1" max="100" initialValue="10"/>
                 </VBox>
 
                 <VBox  alignment="CENTER">
                     <Label text="Start Animal Energy"/>
-                    <Spinner fx:id="startAnimalEnergy" min="1" max="999999999999999" initialValue="10"/>
+                    <Spinner fx:id="startAnimalEnergy" editable="true" min="1" max="999999999999999" initialValue="10"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
                     <Label text="Genome Length"/>
-                    <Spinner fx:id="genomeLength" min="1" max="1000" initialValue="10"/>
+                    <Spinner fx:id="genomeLength" editable="true" min="1" max="1000" initialValue="10"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
@@ -69,7 +69,7 @@
 
                 <VBox alignment="CENTER">
                     <Label text="Percentage of Energy Shared"/>
-                    <Spinner fx:id="energySharePercentage" min="1" max="100" initialValue="30"/>
+                    <Spinner fx:id="energySharePercentage" editable="true" min="1" max="100" initialValue="30"/>
                 </VBox>
                 <VBox alignment="CENTER">
                     <Label text="Switch Genome Variation"/>
@@ -80,27 +80,27 @@
             <VBox alignment="CENTER" spacing="30">
                 <VBox  alignment="CENTER">
                     <Label text="Width"/>
-                    <Spinner fx:id="width" min="10" max="500" initialValue="10"/>
+                    <Spinner fx:id="width" editable="true" min="10" max="500" initialValue="10"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
                     <Label text="Jungle Width"/>
-                    <Spinner fx:id="jungleWidth" min="1" max="10" initialValue="5"/>
+                    <Spinner fx:id="jungleWidth" editable="true" min="1" max="10" initialValue="5"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
                     <Label text="Initial Grass Number"/>
-                    <Spinner fx:id="initialGrassNumber" min="0" max="100" initialValue="25"/>
+                    <Spinner fx:id="initialGrassNumber" editable="true" min="0" max="100" initialValue="25"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
                     <Label text="Grass Energy"/>
-                    <Spinner fx:id="grassEnergy"  min="0" max="999999999999999" initialValue="5"/>
+                    <Spinner fx:id="grassEnergy" editable="true" min="0" max="999999999999999" initialValue="5"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
                     <Label text="Fed Threshold"/>
-                    <Spinner fx:id="fedThreshold" min="1" max="999999999999999" initialValue="20"/>
+                    <Spinner fx:id="fedThreshold" editable="true" min="1" max="999999999999999" initialValue="20"/>
                 </VBox>
 
                 <VBox alignment="CENTER">
@@ -111,7 +111,7 @@
 
                 <VBox alignment="CENTER">
                     <Label text="Daily Grass Spawn Number"/>
-                    <Spinner fx:id="grassSpawn" min="0" max="100" initialValue="25"/>
+                    <Spinner fx:id="grassSpawn" editable="true" min="0" max="100" initialValue="25"/>
                 </VBox>
                 <VBox alignment="CENTER">
                     <Label text="Map Variation"/>

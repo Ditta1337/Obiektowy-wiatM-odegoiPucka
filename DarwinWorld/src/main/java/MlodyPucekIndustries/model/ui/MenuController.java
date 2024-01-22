@@ -84,6 +84,21 @@ public class MenuController implements Initializable{
         fedThreshold.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 999999999, 20));
         grassSpawn.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 25));
 
+        // set every spinner to int
+        addValidationListener(height.getEditor());
+        addValidationListener(jungleHeight.getEditor());
+        addValidationListener(initialAnimal.getEditor());
+        addValidationListener(startAnimalEnergy.getEditor());
+        addValidationListener(genomeLength.getEditor());
+        addValidationListener(energySharePercentage.getEditor());
+        addValidationListener(width.getEditor());
+        addValidationListener(jungleWidth.getEditor());
+        addValidationListener(initialGrassNumber.getEditor());
+        addValidationListener(grassEnergy.getEditor());
+        addValidationListener(fedThreshold.getEditor());
+        addValidationListener(grassSpawn.getEditor());
+
+
         height.valueProperty().addListener((observable, oldValue, newValue) -> onHeightChanged());
         width.valueProperty().addListener((observable, oldValue, newValue) -> onWidthChanged());
         maxMutation.valueProperty().addListener((observable, oldValue, newValue) -> setMaxMutationSliderValue());
@@ -91,6 +106,29 @@ public class MenuController implements Initializable{
         genomeLength.valueProperty().addListener((observable, oldValue, newValue) -> setMaxMutationValue());
         maxMutation.valueProperty().addListener((observable, oldValue, newValue) -> setMinMutationValue());
         initiateSaveChoiceBoxes();
+    }
+
+    private void addValidationListener(TextField field) {
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && !isValidIntegerInput(newValue, 0, 999999999)) {
+                field.setText(oldValue);
+                onHeightChanged();
+                onWidthChanged();
+                setMaxMutationSliderValue();
+                setMinMutationSliderValue();
+                setMaxMutationValue();
+                setMinMutationValue();
+            }
+        });
+    }
+
+    private boolean isValidIntegerInput(String input, int min, int max) {
+        try {
+            int value = Integer.parseInt(input);
+            return value >= min && value <= max;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private void initiateSaveChoiceBoxes() {

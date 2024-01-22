@@ -179,11 +179,6 @@ public class MapController {
         }
     }
 
-//    private void clearGrid() {
-//        mapGrid.getChildren().retainAll(mapGrid.getChildren().get(0)); // hack to retain visible grid lines
-//        mapGrid.getColumnConstraints().clear();
-//        mapGrid.getRowConstraints().clear();
-//    }
 
     public void onStartStopClicked() {
         simulation.pauseUnpause();
@@ -197,14 +192,6 @@ public class MapController {
         int averageEnergy = statistics.getAverageEnergy();
         double averageChildren = statistics.getAverageChildrenCount();
         double averageLifeSpan = statistics.getAverageLifeSpan();
-
-//        System.out.println("Animals: " + numAnimals);
-//        System.out.println("Grass: " + numGrass);
-//        System.out.println("Empty places: " + emptyPlaces);
-//        System.out.println("Most popular genome: " + Arrays.toString(mostPopularGenome));
-//        System.out.println("Average energy: " + averageEnergy);
-//        System.out.println("Average children: " + averageChildren);
-//        System.out.println("Average life span: " + averageLifeSpan);
 
         this.mostPopularGenome.setText(Arrays.toString(mostPopularGenome));
         this.averageEnergy.setText(String.valueOf(averageEnergy));

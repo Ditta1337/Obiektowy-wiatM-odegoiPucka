@@ -22,6 +22,7 @@ public class Simulation implements Runnable {
         this.map = map;
         this.mapController = mapController;
         this.statistics = new Statistics(map);
+
         map.initiate();
         mapController.initiate(map);
     }
@@ -30,10 +31,11 @@ public class Simulation implements Runnable {
         return map;
     }
 
+
     @Override
     public void run() {
         synchronized (this) {
-            while (!isPaused && !stoppedRunning) {
+            while (!stoppedRunning) {
                 mapManager.tickAnimalMove();
                 mapManager.tickEnF();
                 map.customMapFeature();
@@ -49,6 +51,13 @@ public class Simulation implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                if (isPaused) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -56,7 +65,9 @@ public class Simulation implements Runnable {
     public void pauseUnpause() {
         isPaused = !isPaused;
         if (!isPaused) {
-            new Thread(this::run).start();
+            synchronized (this) {
+                notify();
+            }
             mapController.disablePauseButtons();
         } else {
             mapController.enablePauseButtons();
